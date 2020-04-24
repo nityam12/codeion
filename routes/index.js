@@ -13,7 +13,10 @@ console.log("routes up!");
 
 
 router.get('/', homeController.home); //like app.get previously where home is action
+router.use('/users', require('./users'));
 
+//for any furthur routes,access from here
+//router.use('/routename',require('./routerfile));
 
 
 module.exports = router; //we need to export it to outer world so it can be used
