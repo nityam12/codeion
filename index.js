@@ -21,6 +21,12 @@ const port = 8000;
 
 
 
+//use express router using middleware
+app.use('/', require('./routes'));
+
+
+
+
 
 
 
