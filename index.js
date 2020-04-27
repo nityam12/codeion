@@ -16,13 +16,17 @@ npm install->imp all lib are installed from package .json
 
 
 const express = require('express'); //requiring 
+const cookieParser=require('cookie-parser');
 const app = express(); //firing express server
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 
+//parser middleware
+app.use(express.urlencoded());
 
-
+//cookie parser middleware 
+app.use(cookieParser());
 
 app.use(express.static('./assets')); //for including static files
 
