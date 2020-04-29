@@ -15,6 +15,9 @@ console.log("routes up!");
 router.get('/', homeController.home); //like app.get previously where home is action
 router.use('/users', require('./users'));
 
+//path for post routes
+router.use('/posts',require('./posts'));
+
 //for any furthur routes,access from here
 //router.use('/routename',require('./routerfile));
 

@@ -1,8 +1,17 @@
 <!-- variable part-->
 <!-- <link rel="stylesheet" href="/css/user_profile.css" type="text/css"> -->
 <!-- addindividual style to each page -->
-<link rel="stylesheet" href="/css/home.css" type="text/css">
+
 <h1>
     Codeial/
     <%= title %>
 </h1>
+
+
+<section id="feed-posts">
+    <h4>Posts</h4>
+    <form action="/posts/create" method="POST">
+        <textarea name="content" cols="30" rows="3" placeholder="TypeHere.."></textarea>
+        <input type="submit" value="Post">
+    </form>
+</section>
