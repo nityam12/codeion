@@ -22,6 +22,26 @@ const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 
+//used for seession cookie
+const session=require('express-session');
+const passport=require('passport');
+const passportLocal=require('./config/passport-local-strategy');
+
+const MongoStore=require('connect-mongo')(session);
+
+const sassMiddleware=require('node-sass-middleware');
+
+
+//must be before express server is fired
+app.use(sassMiddleware({
+    src:'./assets/SCSS',
+    dest:'./assets/css',
+    debug:true,//display errors in terminal
+    outputStyle:'extended',
+    prefix:'/css'
+
+}));
+
 //parser middleware
 app.use(express.urlencoded());
 
@@ -37,8 +57,7 @@ app.set('layout extractStyles', true); //add individual style to each page-- >
 app.set('layout extractScripts', true); //add individual style to each page-- >
 
 
-//use express router using middleware
-app.use('/', require('./routes'));
+
 
 
 
@@ -49,9 +68,39 @@ app.use('/', require('./routes'));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+//midleware used for enrypting session cookie of express cookie
+//mongo store is used to store the session cookie in db
+app.use(session({
+    name:'codeial',//name for cookie
+    //to change secret before deployment
+    secret:'blahsomething', //key to encode & decode
+    saveUninitialized:false, //no need to save uninitialized login info 
+    resave:false, //no need to re-save data
+    cookie:{ //cookie validity
+        maxAge:(1000*60*100) //in ms
+    },
+    store:new MongoStore( //using mongo store //session is permanentyly stored on server
+        { //instance of mongo store
+            mongooseConnection:db,
+            autoRemove:'disabled'
+        },
+        function(err) //callback fn to show err
+        {
+            console.log(err || 'connect-mongodb setup ok');
+        }
+   )
+}));
 
 
+app.use(passport.initialize()); //passport also helps in storing session cookie
+app.use(passport.session());
 
+
+app.use(passport.setAuthenticatedUser);//this fn is automatically called as middleware
+
+
+//use express router using middleware must be after initialize
+app.use('/', require('./routes')); //must be after passport.initialize;
 
 
 

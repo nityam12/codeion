@@ -9,6 +9,9 @@ module.exports.profile = function(req, res) {
 //action for sin up
 module.exports.signUp=function(req,res)
 {
+        if(req.isAuthenticated()){ // if already logged in redirect to profile 
+           return  res.redirect('/users/profile');
+        } 
     return res.render('user_sign_up',{
         title:"Codeial | Sign Up"
     });
@@ -17,6 +20,9 @@ module.exports.signUp=function(req,res)
 
 module.exports.signIn=function(req,res)
 {
+    if(req.isAuthenticated()){ //passport functionallity
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_in',{
         title:"Codeial | Sign In"
     });
@@ -62,5 +68,14 @@ module.exports.create=function(req,res)
 // sign in and create a session for the user
 module.exports.createSession=function(req,res)
 {
-    //todo
+    return res.redirect('/');
+    
+}
+
+
+
+//sign-out
+module.exports.destroySession=function(req,res){
+    req.logout();//from passport service
+    return res.redirect('/');
 }
