@@ -17,7 +17,7 @@ router.use('/users', require('./users'));
 
 //path for post routes
 router.use('/posts',require('./posts'));
-
+router.use('/comments',require('./comments'));
 //for any furthur routes,access from here
 //router.use('/routename',require('./routerfile));
 
