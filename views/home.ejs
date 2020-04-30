@@ -10,11 +10,12 @@
 
 <section id="feed-posts">
     <h4>Posts</h4>
+    <% if(locals.user){%> locals is an object of res use locals.user instead of user
     <form action="/posts/create" method="POST">
         <textarea name="content" cols="30" rows="3" placeholder="TypeHere.."></textarea>
         <input type="submit" value="Post">
     </form>
-
+<%}%>
 
     <div id="posts-list-container">
         <ul>
