@@ -1,16 +1,17 @@
 <!-- variable part-->
 <!-- <link rel="stylesheet" href="/css/user_profile.css" type="text/css"> -->
 <!-- addindividual style to each page -->
-
+<link rel="stylesheet" href="/css/home.css">
 <h1>
     Codeial/
     <%= title %>
 </h1>
 
-
+<div id="home-container">
 <section id="feed-posts">
     <h4>Posts</h4>
-    <% if(locals.user){%> locals is an object of res use locals.user instead of user
+    <!-- locals is an object of res use locals.user instead of user -->
+    <% if(locals.user){%> 
     <form action="/posts/create" method="POST" required>
         <textarea name="content" cols="30" rows="3" placeholder="TypeHere.."></textarea>
         <input type="submit" value="Post">
@@ -26,3 +27,20 @@
         </ul>
     </div>
 </section>
+
+
+<section id="user-friends">
+    <h4>Friends</h4>
+    <% for(u of all_users){ %>
+        <p>
+
+            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+
+        </p>
+
+
+     <%}%>   
+</section>
+
+
+</div>

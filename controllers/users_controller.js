@@ -1,10 +1,31 @@
 const User= require('../models/user');
 
+//let's keep it same as before-one callback
 module.exports.profile = function(req, res) {
-   return  res.render('user_profile', {
-        title: "My Profile"
-    });
-};
+
+    User.findById(req.params.id,function(err,user){
+        return  res.render('user_profile', {
+            title: "My Profile",
+            profile_user:user
+        });
+    })
+  
+}
+
+module.exports.update=function(req,res)
+{
+    //alternate -way for req.body--->  {name:req.body.name,email:req.body.email};
+    //
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+return res.redirect('back');
+        });
+
+    }else{
+        return res.status(401).send('unauthorized');//giving status
+    }
+
+}
 
 //action for sin up
 module.exports.signUp=function(req,res)
@@ -68,6 +89,8 @@ module.exports.create=function(req,res)
 // sign in and create a session for the user
 module.exports.createSession=function(req,res)
 {
+
+    req.flash('success','Logged in Successfully');
     return res.redirect('/');
     
 }
@@ -77,5 +100,6 @@ module.exports.createSession=function(req,res)
 //sign-out
 module.exports.destroySession=function(req,res){
     req.logout();//from passport service
+    req.flash('error','You have logged Out:');
     return res.redirect('/');
 }

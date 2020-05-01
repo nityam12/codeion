@@ -5,6 +5,8 @@
     <title>
         <%= title %>
     </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script> 
     <link rel="stylesheet" href="/css/layout.css" type="text/css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
@@ -16,6 +18,13 @@
     <!-- attaching partials -->
     <%- include('_header'); %>
 
+        <!-- as flash is present in locals -->
+    <!-- <% if(flash.success && flash.success.length > 0){ %>
+        <h5>
+            <%= flash.success%>
+        </h5>
+
+    <%}%> -->
 
         <!-- including variables part in layout -->
              <main id="layout-main">
@@ -26,6 +35,36 @@
 
 
                 <%- script %>
-</body>
+                   
+                <script>
 
+                    <% if(flash.success && flash.success.length > 0){ %>
+
+                        new Noty({
+                        theme:'relax',   
+                        text:'<%= flash.success %>',
+                        type:'success',
+                        layout:'topRight',
+                        timeout:1500
+                         
+                          }).show();
+
+                    <%}%>    
+
+                    <% if(flash.error && flash.error.length > 0){ %>
+
+                        new Noty({
+                        theme:'relax',   
+                        text:"<%= flash.error %>",
+                        type:'error',
+                        layout:'topRight',
+                        timeout:1500
+ 
+                         }).show();
+
+                    <%}%>    
+
+                </script>
+   
+   </body>
 </html>
