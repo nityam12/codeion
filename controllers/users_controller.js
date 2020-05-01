@@ -18,10 +18,12 @@ module.exports.update=function(req,res)
     //
     if(req.user.id == req.params.id){
         User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-return res.redirect('back');
+            req.flash('success','Succesfully updated Details');
+          return res.redirect('back');
         });
 
     }else{
+        req.flash('error','not authorized to update details');
         return res.status(401).send('unauthorized');//giving status
     }
 
@@ -54,15 +56,18 @@ module.exports.signIn=function(req,res)
 module.exports.create=function(req,res)
 {
     if(req.body.password!=req.body.confirm_password){
+        
+        req.flash('error','password and confirm password does not match');
         return res.redirect('back');
     }
 
     User.findOne({email:req.body.email},function(err,user){
 
         if(err)
-        {
+        {   
+            req.flash('error','error in finding user in signing up');
             console.log('error in finding user in signing up');
-            return;
+            return res.redirect('back');
         }
 
         if(!user){
@@ -70,15 +75,17 @@ module.exports.create=function(req,res)
 
                 if(err)
                 {
+                    req.flash('error','error in signing up');
                     console.log('error in creating user in signing up');
-                    return;
+                    return res.redirect('back');
                 }
-
+                req.flash('success','successfully account created');
                 return res.redirect('/users/sign-in');
             });
            }
            else{
-               return res.redirect('back');
+                req.flash('error','User already exist');
+                return res.redirect('back');
            }
 
     });    
