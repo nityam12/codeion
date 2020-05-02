@@ -59,6 +59,8 @@ module.exports.home = async function(req, res) {
         //populate the user of each post
 
 let posts= await Post.find({})
+
+.sort('-createdAt') //in this way data is stored in mongo db
 .populate('user')
 .populate({
     path:'Comments',

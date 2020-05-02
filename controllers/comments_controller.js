@@ -39,14 +39,31 @@ module.exports.create=async function(req,res){
 
             post.Comments.push(comment);
             post.save();//must be done after each update 
+
+console.log(req.xhr);
+
+            if (req.xhr){
+                // Similar for comments to fetch the user's id!
+                comment = await comment.populate('user', 'name').execPopulate();
+    
+                return res.status(200).json({
+                    data: {
+                        comment: comment
+                    },
+                    message: "Post created!"
+                });
+            }
+
+
+
             req.flash('success','Commented Successfully!');
-          return  res.redirect('back');
+            res.redirect('back');
      
         }
 
    }catch(err){
     req.flash('error',err);
-    return  res.redirect('back');
+    return;  
    }
   
         
@@ -93,8 +110,18 @@ module.exports.create=async function(req,res){
                  comment.remove();
 
                 let post= await Post.findByIdAndUpdate(postId,{$pull: {Comments:req.params.id}});    //removed from comments array
+                // send the comment id which was deleted back to the views
+            if (req.xhr){
+                return res.status(200).json({
+                    data: {
+                        comment_id: req.params.id
+                    },
+                    message: "Post deleted"
+                });
+            }
+
                 req.flash('success','Comment Deleted Successfully!');
-                    return res.redirect('back');
+                 return  res.redirect('back');
                     
           }
 
@@ -106,7 +133,7 @@ module.exports.create=async function(req,res){
     } catch(err)
      {
         req.flash('error',err);
-        return res.redirect('back');
+        return;
      }
    
 }      
