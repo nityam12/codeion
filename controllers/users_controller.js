@@ -1,4 +1,6 @@
 const User= require('../models/user');
+const fs=require('fs');
+const path=require('path');
 
 //let's keep it same as before-one callback
 module.exports.profile = function(req, res) {
@@ -12,20 +14,63 @@ module.exports.profile = function(req, res) {
   
 }
 
-module.exports.update=function(req,res)
+module.exports.update= async function(req,res)
 {
     //alternate -way for req.body--->  {name:req.body.name,email:req.body.email};
     //
-    if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-            req.flash('success','Succesfully updated Details');
-          return res.redirect('back');
-        });
+    // if(req.user.id == req.params.id){
+    //     User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+    //         req.flash('success','Succesfully updated Details');
+    //       return res.redirect('back');
+    //     });
 
-    }else{
-        req.flash('error','not authorized to update details');
-        return res.status(401).send('unauthorized');//giving status
-    }
+    // }else{
+    //     req.flash('error','not authorized to update details');
+    //     return res.status(401).send('unauthorized');//giving status
+    // }
+
+    if(req.user.id == req.params.id){
+        try{
+
+            let user= await User.findById(req.params.id);
+            User.uploadedAvatar(req,res,function(err){
+
+                if(err){console.log('*****-Multer:error',err)}
+
+
+                    // console.log(req.file);
+                    user.name=req.body.name;
+                    user.email=req.body.email;
+                    if(req.file){
+                        
+                        if(user.avatar)
+                        {
+                            if (fs.existsSync(path.join(__dirname,'..',user.avatar))) {
+                                fs.unlinkSync(path.join(__dirname,'..',user.avatar),function(err){
+                                    if (err) throw err;
+                                });
+                            }
+                            
+                        }
+
+                        // this is saving the path of the uploaded file into the avatar field in the user
+
+                        user.avatar=User.avatarPath+'/'+req.file.filename;
+
+                    }
+                        user.save();
+                        return res.redirect('back');
+            });
+
+        }catch(err){
+                req.flash('error',err);
+                return res.redirect('back');
+
+        }
+     } else{
+                 req.flash('error','not authorized to update details');
+                 return res.status(401).send('unauthorized');//giving status
+             }
 
 }
 

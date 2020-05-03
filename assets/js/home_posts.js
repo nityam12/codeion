@@ -77,7 +77,7 @@
 
             $.ajax({
                 type: 'get',
-                url: $(deleteLink).prop('href'),
+                url: $(deleteLink).prop('href'), //to extract href data from a tag
                 success: function(data){
                     $(`#post-${data.data.post_id}`).remove();
                     new Noty({
@@ -112,6 +112,7 @@
             new PostComments(postId);
         });
     }
+
 
 
 

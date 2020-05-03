@@ -56,6 +56,9 @@ app.use(cookieParser());
 
 app.use(express.static('./assets')); //for including static files
 
+//make the upload file available to browser
+app.use('/uploads',express.static(__dirname + '/uploads'));
+
 app.use(expressLayouts); //must be before routes  before rendering
 
 //extract style and scripts from sub pages into the layout uses express-ejs-layouts see documentation
