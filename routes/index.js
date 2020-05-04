@@ -22,5 +22,7 @@ router.use('/comments',require('./comments'));
 //router.use('/routename',require('./routerfile));
 
 
+router.use('/api',require('./api'));
+
 module.exports = router; //we need to export it to outer world so it can be used
 //diff btn exports & module.exports
