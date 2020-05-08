@@ -21,6 +21,7 @@ router.use('/comments',require('./comments'));
 //for any furthur routes,access from here
 //router.use('/routename',require('./routerfile));
 
+router.use('/likes',require('./likes'));
 
 router.use('/api',require('./api'));
 
