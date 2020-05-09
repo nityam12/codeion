@@ -11,5 +11,23 @@
         padding: 10px;
         border-left:1px solid lightgrey;
         height:100%;
+
+            #friends{
+                width:30%;
+                height:50%;
+                padding: 10px;
+                border:2px solid rgb(76, 167, 228);
+                margin-bottom:10px;
+            }
+
+
+            #users{
+                width:30%;
+                height:50%;
+                padding: 10px;
+                border:2px solid rgb(202, 94, 21);
+            }
+
+            
     }
 }

@@ -1,16 +1,18 @@
 const mongoose=require('mongoose');
-
+// const Comment=require('../models/comment');
+// const Post=require('../models/post');
 
 const likeSchema=new mongoose.Schema({
 
     user:{
         type:mongoose.Schema.ObjectId,
+        // ref:'User'
     },
 
 // this defines the object id of liked object---using dynamic reference
     likeable:{
         type:mongoose.Schema.ObjectId,
-        required:true,
+        require:true,
         refPath:'onModel'
     },
 
@@ -18,7 +20,7 @@ const likeSchema=new mongoose.Schema({
     onModel:{
         type:String,
         required:true,
-        enum:['Post','Comment']
+        enum: ['Post','Comment']
     }
 
 
@@ -27,6 +29,7 @@ const likeSchema=new mongoose.Schema({
 {
     timestamps:true
 }
+
 );
 
 

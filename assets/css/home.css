@@ -8,3 +8,14 @@
     padding: 10px;
     border-left: 1px solid lightgrey;
     height: 100%; }
+    #home-container #user-friends #friends {
+      width: 30%;
+      height: 50%;
+      padding: 10px;
+      border: 2px solid #4ca7e4;
+      margin-bottom: 10px; }
+    #home-container #user-friends #users {
+      width: 30%;
+      height: 50%;
+      padding: 10px;
+      border: 2px solid #ca5e15; }

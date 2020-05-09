@@ -10,11 +10,11 @@ module.exports.toggleLike= async function(req,res)
 
     try{
 
-        //likes/tggle/?id=abcde&type=Post
+        //likes/toggle/?id=abcde&type=Post
 
         let likeable;
         let deleted=false;
-
+        // console.log(req.query);
         if(req.query.type=="Post")
         {
            likeable = await  Post.findById(req.query.id).populate('likes');
@@ -30,7 +30,7 @@ module.exports.toggleLike= async function(req,res)
                 //only logged in authenticated user will be allowed
             })
 
-            //if a like already exist 
+            //if a like already exist then delete it
         if(existingLike){
                 likeable.likes.pull(existingLike._id);
                 likeable.save();
@@ -47,17 +47,20 @@ module.exports.toggleLike= async function(req,res)
 
                 });
 
-                likeable.likes.push(Like._id);
+                likeable.likes.push(newLike._id);
                 likeable.save();
 
         }
 
+    
         return res.json(200,{
             message:"request Successfull!",
             data:{
                 deleted:deleted
             }
         })
+
+    
 
     }catch(err){
         console.log(err);

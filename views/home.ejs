@@ -2,10 +2,7 @@
 <!-- <link rel="stylesheet" href="/css/user_profile.css" type="text/css"> -->
 <!-- addindividual style to each page -->
 <link rel="stylesheet" href="/css/home.css">
-<h1>
-    Codeial/
-    <%= title %>
-</h1>
+
 
 <div id="home-container">
 <section id="feed-posts">
@@ -30,21 +27,40 @@
 
 
 <section id="user-friends">
+
+   <div id="friends">
     <h4>Friends</h4>
-    <% for(u of all_users){ %>
-        <p>
 
-            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-
-        </p>
-
-
-     <%}%>   
+   </div> 
+    
+ 
+    <div id="users">
+        <h4>Users</h4>
+        <% for(u of all_users){ %>
+            <p>
+    
+                <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+    
+            </p>
+    
+    
+         <%}%>   
+    </div>
+    
 </section>
 
 
 </div>
 
-
+<!-- importing this script for creating the comments -->
 <script src="/js/home_post_comments.js" ></script>
 <script src="/js/home_posts.js"></script> 
+<script src="/js/home_like.js"></script>
+
+<!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
+<script>
+    $('.toggle-like-button').each(function(){
+        let self = this;
+        let toggleLike = new ToggleLike(self);
+    });
+</script>
