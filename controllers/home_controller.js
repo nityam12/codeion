@@ -72,7 +72,20 @@ let posts= await Post.find({})
 //   problem here  likes of comment not populated
 }).populate('likes');
 
-  let users= await User.find({});
+
+  let users= await User.find({})
+  .sort('-createdAt')
+  .populate({
+      path:'friendships',
+      populate:{
+        path:'from_user to_user'
+      }
+    
+  });
+
+
+//   let user= await User.findById(locals.user._id)
+
   return res.render('home', {
                  title: "Codeial | Home",
                  posts:posts,

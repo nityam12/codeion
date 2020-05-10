@@ -2,7 +2,7 @@
 <!-- <link rel="stylesheet" href="/css/user_profile.css" type="text/css"> -->
 <!-- addindividual style to each page -->
 <link rel="stylesheet" href="/css/home.css">
-
+<link rel="stylesheet" href="/css/chat_box.css">
 
 <div id="home-container">
 <section id="feed-posts">
@@ -30,6 +30,13 @@
 
    <div id="friends">
     <h4>Friends</h4>
+    <%if(locals.user){%>
+        <%= locals.user._id%>
+        
+    <%}%>
+
+
+
 
    </div> 
     
@@ -40,7 +47,7 @@
             <p>
     
                 <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-    
+                <!-- <%= u.friendships%> -->
             </p>
     
     
@@ -49,7 +56,7 @@
     
 </section>
 
-
+<%- include('_chat_box') -%>
 </div>
 
 <!-- importing this script for creating the comments -->
@@ -64,3 +71,12 @@
         let toggleLike = new ToggleLike(self);
     });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="/js/chat_engine.js"></script>
+
+<%if(locals.user){%>
+<script>
+    new ChatEngine('user-chat-box','<%= locals.user.email%>');
+</script>
+
+<%}%>
