@@ -1,5 +1,6 @@
 <!-- variable part-->
 <!-- add individual style to each page -->
+
 <link rel="stylesheet" href="/css/user_profile.css" type="text/css">
 
 <img src="<%= user.avatar %>" alt="<%= user.name %>" width="100">
@@ -19,11 +20,45 @@
          <!-- else show only  only the profile info -->
          <p><%= profile_user.email %></p>
          <p></p><%= profile_user.name %></p>
-
-          <a class="make-friend-link" href="users/friends/make/?from=<%=user._id %>&to=<%=profile_user._id%>"><span id="frt">send friend request</span></a>
-
-  <%}%>  
-
   
-  <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
-  <!-- <script src="/js/make_friend.js"></script> -->
+   <% let i=0 %>
+         
+        <% for(f of user.friendships){ %>
+          
+
+          <% for(k of profile_user.friendships){ %>
+            
+                <% if(JSON.stringify(f._id) == JSON.stringify(k._id)){%>
+                 
+                  <% i=1 %>
+
+                 <%}%>
+
+            <%}%>
+
+        <%}%>
+<br>
+        <!-- <%=user.friendships%>
+        <br>
+        <%=profile_user.friendships%>
+        <br> -->
+        <!-- <%=i%> -->
+
+ <%if(i==0){%>
+ <a id="friend-link" class="make-friend-link" href="friends/make/?from=<%=user._id %>&to=<%=profile_user._id%>">send friend request</a>
+<%}else{%>
+  <a id="friend-link" class="make-friend-link" href="friends/make/?from=<%=user._id %>&to=<%=profile_user._id%>">Unfriend</a>
+  <%}%>
+
+ <script src="/js/join_friend.js"></script>
+ 
+ <script>
+       
+   new FriendRequest('friendlink');
+      
+ </script> 
+
+<%}%>  
+  
+  
+

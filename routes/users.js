@@ -28,7 +28,7 @@ router.post('/create-session',passport.authenticate(
 
 router.get('/sign-out',usersController.destroySession);
 
-router.use('/friends',require('./friends'));
+router.use('/profile/friends',require('./friends'));
 
 
 

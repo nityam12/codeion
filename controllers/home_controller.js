@@ -65,7 +65,7 @@ let posts= await Post.find({})
 .populate({
     path: 'Comments',
     populate:{
-        path: 'user'
+        path: 'user likes'
     }
     
        
@@ -83,13 +83,28 @@ let posts= await Post.find({})
     
   });
 
+  let personal=-1;
+  if(req.user){
+   personal= await User.findById(req.user._id)
+  .populate({
+    path:'friendships',
+    populate:{
+      path:'from_user to_user'
+    }
+  
+});
+
+  }
+
+  console.log(personal);
 
 //   let user= await User.findById(locals.user._id)
 
   return res.render('home', {
                  title: "Codeial | Home",
                  posts:posts,
-                all_users:users
+                all_users:users,
+                personal:personal
             });
     
 

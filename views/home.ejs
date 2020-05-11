@@ -30,9 +30,25 @@
 
    <div id="friends">
     <h4>Friends</h4>
-    <%if(locals.user){%>
-        <%= locals.user._id%>
-        
+    <%if(locals.user && personal!=-1 && personal.friendships.length > 0) {%>
+        <% for(f of personal.friendships){%>
+           
+          <p>
+            <%if(locals.user.id == f.from_user.id){%>
+           
+                <!-- <%= f.to_user.name%> -->
+                <a href="/users/profile/<%= f.to_user.id %>"><%= f.to_user.name %></a>
+                <%}else{%>
+                    
+                    <!-- <%= f.from_user.name%> -->
+                    <a href="/users/profile/<%= f.from_user.id %>"><%= f.from_user.name %></a>
+                    <%}%>      
+                    
+            </p>  
+    <%}%>
+    
+
+
     <%}%>
 
 
@@ -47,7 +63,7 @@
             <p>
     
                 <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-                <!-- <%= u.friendships%> -->
+            
             </p>
     
     
@@ -63,6 +79,7 @@
 <script src="/js/home_post_comments.js" ></script>
 <script src="/js/home_posts.js"></script> 
 <script src="/js/home_like.js"></script>
+
 
 <!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
 <script>

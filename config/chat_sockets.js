@@ -49,7 +49,7 @@ module.exports.chatSockets = function(socketServer){
         socket.on('join_room', function(data){
             console.log('joining request rec.', data);
 
-            socket.join(data.chatroom);
+            socket.join(data.chatroom);//joining user to chat room
 
             io.in(data.chatroom).emit('user_joined', data);
         });
