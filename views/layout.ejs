@@ -9,7 +9,7 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script> 
-   
+    <script src="https://kit.fontawesome.com/3505eac404.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/layout.css" type="text/css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
@@ -18,6 +18,8 @@
 </head>
 
 <body>
+
+<article> 
     <!-- attaching partials -->
     <%- include('_header'); %>
 
@@ -32,11 +34,11 @@
         <!-- including variables part in layout -->
              <main id="layout-main">
                       <%- body %>
-
              </main>
+
             <%- include( '_footer'); %>
 
-
+</article>
                 <%- script %>
                 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>   -->
                 <script>

@@ -1,0 +1,125 @@
+li{
+    a{
+        text-decoration: none;
+    }
+    i{
+        transform:scale(1.5);
+        
+        
+    }
+    .toggle-like-button{
+        margin-left:8px;
+        font-size:25px;
+        color:lime;
+        
+        i{
+            transform:scale(1.1);
+            color:yellowgreen;
+            // background-color: pink;
+        }
+
+
+    }
+    .toggle-like-button:hover{
+        color:pink;
+        i{
+            color:rgb(238, 241, 9);
+            transform:scale(0.8);
+        }
+
+    }
+
+
+    .delete-post-button{
+        color:#131010;
+        
+    }
+    .delete-post-button:hover{
+        color:#961414;
+        transform: rotate(90deg) !important;
+     
+    }
+
+    //comments
+    .post-comments{
+        input[type="text"]{
+            background-color:#d3d9e0;
+            outline:none;
+            width:60%;
+            height:40%;
+            padding:8px;
+            font-size:20px;
+            border:1px solid blueviolet;
+            &::placeholder{
+                color:brown;
+            }
+
+        }
+
+        input[type="submit"]{
+            background-color:#0e71e2;
+            outline:none;
+            height:80px;
+            width:80px;
+            border-radius:90%;
+            border:1px solid black;
+            margin-left:15px;
+            transition: transform 1s ease-in-out;
+            &:hover { 
+               
+                cursor: pointer;
+                transform: scale(0.8);
+                box-shadow: 0px 0px 3px 3px rgb(226, 149, 6);
+            }
+
+        }
+
+        .post-comments-list{
+
+
+                ul{
+
+                    li{
+                        
+                        p{
+                        padding:3px;
+                        font-size: 20px;
+                        font-weight: 400;
+                        background-color: #b9b6089a !important;
+                        color:black;
+                        margin-left:-39px;
+                        line-height: 1.6;
+                        border-radius:0.8rem;
+
+                        #comment-name{
+                            color:#ec0284!important;
+                        }
+
+                        
+                        }
+
+                        .delete-comment-button{
+
+                            i{
+                                color:black !important;
+                                &:hover{
+                                    color:red!important;
+                                }
+                            }
+                        }
+
+                        .toggle-like-button{
+
+                            color:#d8062a !important;
+
+                            i{
+                                color:brown !important;
+
+                            }
+                        }
+                    }
+                }            
+        }
+    }
+
+}

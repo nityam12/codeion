@@ -1,13 +1,39 @@
-<h1>Sign In</h1>
 
-<form action="/users/create-session" method="POST">
-
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <input type="submit" value="Sign In">
+<link rel="stylesheet" href="/css/user_sign_in.css">
 
 
+<div id="wrapper">
+
+<div class="btn_style" id="login_btn">Login</div>
+<div class="btn_style" id="signup_btn"><a href="/users/auth/google"><i class="fab fa-google"></i>&ensp;&ensp;sign in</a></div>
+<div id="form_div">
+
+    <div id="login">
+    
+    <h2>Login to our site.</h2>
+    <h4>Enter user name and password to log on:</h4>
+<form action="/users/create-session" method="POST"  novalidate>
+
+    <div class="field_divs">
+        <span>Email</span>
+    <input type="email" id="login_email" class="fields" name="email" placeholder="Email" required>
+    <div class="error" id="login_email_error"></div><div class="checked_img" id="login_email_checked"></div>
+</div>
 
 
+<div class="field_divs">
+    <span>Password</span>
+    <input type="password" name="password" id="login_password" class="fields" placeholder="Password" required>
+    <div class="error" id="login_password_error"></div><div class="checked_img" id="login_password_checked"></div>
+</div>	
 
+<div class="field_divs">
+    <input type="submit" value="Login" id="login_submit" class="fields submitt">
+</div>
 </form>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.js"></script>

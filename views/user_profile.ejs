@@ -3,23 +3,32 @@
 
 <link rel="stylesheet" href="/css/user_profile.css" type="text/css">
 
-<img src="<%= user.avatar %>" alt="<%= user.name %>" width="100">
+
+<div id="user-profile-container">
+
+<div id="img-container"><img src="<%= user.avatar %>" alt="<%= user.name %>" width="100" id="blah"> </div>
+
 
 
 
 <% if(user.id == profile_user.id){ %>
      <!-- if user matches then show form  -->
-
-     <form action="/users/update/<%=profile_user.id %>" enctype="multipart/form-data" method="POST">
-<input type="text" name="name" placeholder="Your Name" value="<%=profile_user.name %>" required>
-<input type="email" name="email" placeholder="Your Email" value="<%=profile_user.email %>" required>
-<input type="file" name="avatar" placeholder="Profile Picture">
-<input type="submit" value="update">   
+<div id="form-container">
+     <form action="/users/update/<%=profile_user.id %>" enctype="multipart/form-data" method="POST" runat="server">
+<label for="name">Name:</label>     
+<input type="text" name="name" placeholder="Your Name" value="<%=profile_user.name %>" required id="name">
+<label for="email">Email:</label>
+<input type="email" name="email" placeholder="Your Email" value="<%=profile_user.email %>" required id="email">
+<label for="pro">Profile_pic::</label>
+<input type="file" name="avatar" placeholder="Profile Picture" id="pro" accept=".jpg, .jpeg, .png">
+<input type="submit" value="update" id="subs">   
 </form>
+</div>
   <%}else{%>
          <!-- else show only  only the profile info -->
-         <p><%= profile_user.email %></p>
-         <p></p><%= profile_user.name %></p>
+        <div id="other-user-container">
+         <p>Email::&nbsp;<%= profile_user.email %></p>
+         <p>Name::&nbsp;<%= profile_user.name %></p>
   
    <% let i=0 %>
          
@@ -49,6 +58,9 @@
 <%}else{%>
   <a id="friend-link" class="make-friend-link" href="friends/make/?from=<%=user._id %>&to=<%=profile_user._id%>">Unfriend</a>
   <%}%>
+</div>
+
+</div>
 
  <script src="/js/join_friend.js"></script>
  
@@ -59,6 +71,7 @@
  </script> 
 
 <%}%>  
-  
+
+<script src="/js/file_upload.js"></script>
   
 

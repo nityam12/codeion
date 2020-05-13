@@ -5,13 +5,38 @@
 <link rel="stylesheet" href="/css/chat_box.css">
 
 <div id="home-container">
+
+ <section id="adv-sec">
+    <div>
+        <img src="/images/cyb.jpg">
+    </div>
+    <div>
+         <img src="/images/res.jpg">
+    </div>
+    <div>
+        <img src="/images/dmc.jpg">
+    </div>
+    <div>
+         <img src="/images/wtc.jpg">
+    </div>
+
+        
+   
+    <div>
+        <img src="/images/red.jpg">
+    </div>
+    
+
+    
+ </section>   
+    
 <section id="feed-posts">
     <h4>Posts</h4>
     <!-- locals is an object of res use locals.user instead of user -->
     <% if(locals.user){%> 
     <form action="/posts/create" id="new-post-form" method="POST">
-        <textarea name="content" cols="30" rows="3" placeholder="TypeHere.." required></textarea>
-        <input type="submit" value="Post">
+        <textarea name="content" cols="60" rows="8" placeholder="TypeHere.." required autofocus></textarea>&ensp;&ensp;&ensp;&ensp;
+        <input id="post-submit" type="submit" value="Post">
     </form>
 <%}%>
 

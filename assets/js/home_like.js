@@ -28,7 +28,7 @@ class ToggleLike{
 
 
                 $(self).attr('data-likes', likesCount);
-                $(self).html(`${likesCount} Likes`);
+                $(self).html(`${likesCount}&ensp;&ensp;<i class="far fa-heart"></i>`);
 
                 // new Noty({
                 //     theme: 'relax',

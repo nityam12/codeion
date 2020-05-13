@@ -1,16 +1,56 @@
-<h1>Sign Up</h1>
+
+<link rel="stylesheet" href="/css/user_sign_up.css">
 
 
-<form action="/users/create" method="POST">
-    <input type="text" required name="name" placeholder="Your Name">
-    <input type="email" required name="email" placeholder="Your Email">
-    <input type="password" required name="password" placeholder="Password">
-    <input type="password" required name="confirm_password" placeholder="Confirm Password">
-    <input type="submit" value="Sign Up">
+<div id="wrapper">
+    <div class="btn_style" id="login_btn"><a href="/users/auth/google"><i class="fab fa-google"></i>&ensp;&ensp;sign up</a></div>
+    <div class="btn_style" id="signup_btn">Sign Up</div>
+<div id="form_div">
+    <div id="signup">
+			
+        <h2>Sign up now </h2>
+        <h4>Fill in the form below to get instant access:</h4>
 
+<form action="/users/create" method="POST" novalidate>
+    <div class="field_divs">
+        <span>Name</span>
+    <input type="text" id="first_name" class="fields" required name="name" placeholder="Your Name">
+    <div class="error" id="first_name_error"></div><div class="checked_img" id="first_name_checked"></div>
+</div>
+
+<div class="field_divs">
+    <span>Email</span>
+    <input type="email" id="signup_email" class="fields" required name="email" placeholder="Your Email">
+    <div class="error" id="signup_email_error"></div><div class="checked_img" id="signup_email_checked"></div>
+	</div>
+
+    <div class="field_divs">
+        <span>Password</span>
+    <input type="password" required id="signup_password" class="fields" name="password" placeholder="Password">
+    <div class="error" id="signup_password_error"></div><div class="checked_img" id="signup_password_checked"></div>
+</div>
+
+<div class="field_divs">
+    <span>Confirm password</span>
+    <input type="password" id="confirm_password" class="fields"  required name="confirm_password" placeholder="Confirm Password">
+    <div class="error" id="confirm_password_error"></div><div class="checked_img" id="confirm_password_checked"></div>
+            </div>
+
+ <div class="field_divs">       
+    <input type="submit" id="signup_submit" class="fields submitt"  value="Sign Up">
+</div>
 
 </form>
 
-<p>
+</div>
+
+
+</div>
+
+</div>
+
+<!-- <p>
     <a href="/users/auth/google">Google Sign In/Google sign up</a>
-</p>
+</p> -->
+
+<script type="text/javascript" src="/js/jquery.js"></script>

@@ -63,18 +63,20 @@ class PostComments{
         return $(`<li id="comment-${ comment._id }">
                         <p>
                             
-                            <small>
-                                <a class="delete-comment-button" href="/comments/destroy/${comment._id}">X</a>
-                            </small>
+                            
                             
                             ${comment.content}
                             <br>
                             <small>
-                                ${comment.user.name}
+                                -- by ${comment.user.name}
+                                &ensp;&ensp;
+                                <small>
+                                <a class="delete-comment-button" href="/comments/destroy/${comment._id}"><i class="fas fa-times-circle"></i></a>
+                            </small>
                             </small>
                             <br>
                             <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Comment">
-                            0 Likes
+                            0 <i class="far fa-heart"></i>
                         </a>
                         </p>    
                                

@@ -43,20 +43,24 @@
         return $(`<li id="post-${post._id}">
                     <p>
                         
-                        <small>
-                            <a class="delete-post-button"  href="/posts/destroy/${ post._id }">X</a>
-                        </small>
+                        
                        
                         ${ post.content }
                         <br>
                         <small>
                         ${ post.user.name }
+                        &ensp;&ensp;
+                        <small>
+                            <a class="delete-post-button"  href="/posts/destroy/${ post._id }"><i class="far fa-heart"></i></a>
                         </small>
+
+                        </small>
+
                         <br>
                         <small>
                             
                         <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${post._id}&type=Post">
-                            0 Likes
+                            0  <i class="far fa-heart"></i>
                         </a>
                     
                 </small>

@@ -1,5 +1,11 @@
-body {
+html, body {
   margin: 0;
-  /* text-align: center; */ }
-  body #layout-main {
-    height: 100%; }
+  min-height: 100%; }
+  html article, body article {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; }
+  html main, body main {
+    flex-grow: 1;
+    flex-shrink: 0; }
