@@ -26,6 +26,12 @@ function(req,email,password,done){ //done is callback fn returning to passport/j
                 req.flash('error','Invalid Username/Password');
                 return done(null,false);//one for err & other for unsuccessful authentication
             }
+
+            if(user.isActive==false)
+            {
+                req.flash('error','Please Verify Your Account');
+                return done(null,false);//one for err & other for unsuccessful authentication
+            }
                 return done(null,user);//first one is err-null  sec-user
         });
 

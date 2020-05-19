@@ -108,3 +108,6 @@ main {
   position: absolute;
   top: 31px;
   left: 370px; }
+
+#forgot {
+  color: white !important; }

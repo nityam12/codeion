@@ -1,6 +1,10 @@
 const User= require('../models/user');
 const fs=require('fs');
 const path=require('path');
+const crypto = require('crypto');
+const queue=require('../config/kue');
+const ResetWorker=require('../workers/password_reset_worker');
+const AccountVerifier=require('../workers/account_verification_worker');
 
 //let's keep it same as before-one callback
 module.exports.profile = function(req, res) {
@@ -98,45 +102,73 @@ module.exports.signIn=function(req,res)
 
 
 //get the sign up data
-module.exports.create=function(req,res)
+module.exports.create= async function(req,res)
 {
+
+try{
+
     if(req.body.password!=req.body.confirm_password){
         
         req.flash('error','password and confirm password does not match');
         return res.redirect('back');
     }
 
-    User.findOne({email:req.body.email},function(err,user){
+    let olduser= await User.findOne({email:req.body.email});
 
-        if(err)
+        if(olduser)
         {   
-            req.flash('error','error in finding user in signing up');
-            console.log('error in finding user in signing up');
-            return res.redirect('back');
+                req.flash('error','User already exist');
+                return res.redirect('back');
         }
 
-        if(!user){
-            User.create(req.body,function(err,user){
+       
 
-                if(err)
+        let user=await User.create(req.body);
+
+                if(!user)
                 {
                     req.flash('error','error in signing up');
                     console.log('error in creating user in signing up');
                     return res.redirect('back');
                 }
+
+                
+                
+                const verifyToken=user.createAccountVerifyToken();
+
+                await user.save({validateBeforeSave:false});
+
+                const url = `${req.protocol}://${req.get('host')}/users/verify/${verifyToken}`;
+
+                let job= await queue.create('loginemail',{url:url,email:req.body.email}).priority('high').attempts(5).save(function(err){
+                    if(err)
+                    {
+                        console.log('error in creating a queue',err);
+                        return;
+                    }
+            
+                    console.log('job enqued',job.id);
+                })
+
                 req.flash('success','successfully account created');
+                req.flash('success','verify your account from your email');
                 return res.redirect('/users/sign-in');
-            });
-           }
-           else{
-                req.flash('error','User already exist');
-                return res.redirect('back');
-           }
 
-    });    
+            }
+           
+           
+                
+                            catch(err)
+                            {
+                                console.log('error',err);
+                                user.acountVerifyToken = undefined;
+                                user.accountVerifyExpires = undefined;
+                                await user.save({validateBeforeSave:false});
+                                req.flash('error','There was an error sending the email.Try again later!');
+                                return res.redirect('/users/sign-up');
+                            }
 
-
-}
+                        }
 
 // sign in and create a session for the user
 module.exports.createSession=function(req,res)
@@ -144,6 +176,7 @@ module.exports.createSession=function(req,res)
 
     req.flash('success','Logged in Successfully');
     return res.redirect('/');
+    // return res.redirect('/users/forgot_passp');
     
 }
 
@@ -154,4 +187,249 @@ module.exports.destroySession=function(req,res){
     req.logout();//from passport service
     req.flash('error','You have logged Out:');
     return res.redirect('/');
+}
+
+module.exports.forgotpage = function(req,res){
+
+   return res.render('forgot_page',{
+       title:"forgot password"
+   });
+
+}
+
+module.exports.forgotpage2 = function(req,res){
+
+    return res.render('forgot_page2',{
+        title:"Change password"
+    });
+ 
+ }
+
+
+module.exports.forgotPassword= async function(req,res,next){
+
+    //1-> get user based on posted email
+try{
+
+    const user= await User.findOne({ email:req.body.email});
+
+    if(!user)
+    {
+        // return next(new AppError('there is no user with this email adddress.',404));
+        console.log("there is no user with this email adddress.");
+        req.flash("error","there is no user with this email adddress.");
+        return res.redirect('back');
+    }
+
+    //2->generate the random token
+   const resetToken = user.createPasswordResetToken();
+    await user.save({validateBeforeSave:false});
+
+    const resetURL = `${req.protocol}://${req.get(
+      'host'
+    )}/users/resetPassword/${resetToken}`;
+
+    let job= await queue.create('resetemail',{resetURL:resetURL,email:user.email}).save(function(err){
+        if(err)
+        {
+            console.log('error in creating a queue',err);
+            return;
+        }
+
+        console.log('job enqued',job.id);
+    })
+
+
+
+
+
+
+
+
+    req.flash('success','Reset link sent to your email');
+    return res.redirect('/users/sign-in')
+
+   }catch(err){
+    console.log('Error',err);
+    user.PasswordResetToken = undefined;
+    user.PasswordResetExpires = undefined;
+    await user.save({validateBeforeSave:false});
+    req.flash('error','There was an error sending the email.Try again later!');
+
+    return res.redirect('/users/sign-in');
+}
+
+    //3->send it to user's email
+
+
+
+}
+
+module.exports.resetPassword= async function(req,res,next){
+
+// 1) gET USER BASED UPON TOKEN
+try{
+    const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+    console.log(req.params.token,hashedToken);
+
+    const user = await User.findOne({passwordResetToken:hashedToken,
+    
+        passwordResetExpires:{$gt:Date.now()}
+        // sort: { 'created_at' : -1 }
+    
+    });
+
+
+
+
+
+
+
+
+//2 if the token has not expired, and there is user set the new password
+
+
+    if(!user)
+    {
+         req.flash("error","Token has expired or is invalid");
+        return res.redirect('/users/sign-in');
+
+    }
+
+     return res.render('forgot_page2',{
+        title:"Change password",
+        Token:hashedToken
+    });
+
+    
+
+    // if(req.body.confirm_password == req.body.password){
+    // user.password = req.body.password;
+    // user.PasswordResetExpires=undefined;
+    // user.PasswordResetToken=undefined;
+    // await user.save();
+    // req.flash("success","Password changed successfully");
+    // req.flash("success","Login Again");
+    // return res.redirect('/users/sign-in');
+    // }
+    // else{
+    //      req.flash("error","Password and confirm password doesn't match");
+    //     return res.redirect('back');
+    // }
+    
+}catch(err){
+    console.log('Error',err);
+    // user.PasswordResetToken = undefined;
+    // user.PasswordResetExpires = undefined;
+    // await user.save({validateBeforeSave:false});
+    // req.flash('error','There was an error sending the email.Try again later!');
+
+    // return res.redirect('/users/sign-in');
+}   
+
+
+//3 update changedPasswordAt property for the user
+
+
+//4 log the user in ,send jwt
+
+
+
+
+}
+
+module.exports.resetPassword2 = async function(req,res,next)
+{
+
+    
+    try{
+        // const hashedToken = crypto
+        // .createHash('sha256')
+        // .update(req.params.token)
+        // .digest('hex');
+    
+        console.log(req.params.token);
+    
+        const user = await User.findOne({passwordResetToken:req.params.token,
+        
+            passwordResetExpires:{$gt:Date.now()}
+            // sort: { 'created_at' : -1 }
+        
+        });
+    
+    
+    
+    
+    
+    
+    
+    
+    //2 if the token has not expired, and there is user set the new password
+    
+    
+        if(!user)
+        {
+             req.flash("error","Token has expired or is invalid");
+            return res.redirect('/users/sign-in');
+    
+        }
+    
+        
+        if(req.body.confirm_password == req.body.password){
+            user.password = req.body.password;
+            user.PasswordResetExpires=undefined;
+            user.PasswordResetToken=undefined;
+            await user.save();
+            req.flash("success","Password changed successfully");
+            req.flash("success","Login Again");
+            return res.redirect('/users/sign-in');
+            }
+            else{
+                 req.flash("error","Password and confirm password doesn't match");
+                return res.redirect('back');
+            }
+    }catch(err)
+    {
+        console.log('Error',err);
+    }
+}
+
+module.exports.verifyAccount=async function(req,res){
+
+   try{ 
+    const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+    console.log(req.params.token,hashedToken);
+
+    const user = await User.findOne({acountVerifyToken:hashedToken,
+    
+        accountVerifyExpires:{$gt:Date.now()}
+        // sort: { 'created_at' : -1 }
+    
+    });
+
+    if(!user)
+    {
+            req.flash("error","Token has expired or is invalid");
+            return res.redirect('/users/sign-up');
+    }
+
+    user.isActive=true;
+    user.acountVerifyToken=undefined;
+    user.accountVerifyExpires=undefined;
+    await user.save();
+    req.flash("success","Account Verified");
+    req.flash("success","Login Again");
+    return res.redirect('/users/sign-in');
+
+   }catch(err){
+        console.log('error',err);
+   }
 }

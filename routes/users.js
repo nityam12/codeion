@@ -7,13 +7,24 @@ const usersController = require('../controllers/users_controller');
 
 
 
-
 router.get('/profile/:id',passport.checkAuthentication,usersController.profile);
 router.post('/update/:id',passport.checkAuthentication,usersController.update);
 
 
 router.get('/sign-up',usersController.signUp);
 router.get('/sign-in',usersController.signIn);
+
+router.get('/forgot',usersController.forgotpage);
+router.post('/forgotPassword',usersController.forgotPassword);
+// router.post('/forgotPassword',usersController.forgotPassword);
+router.get('/resetPassword/:token',usersController.resetPassword);
+router.post('/resetPasswordupdate/:token',usersController.resetPassword2);
+
+router.get('/verify/:token',usersController.verifyAccount);
+
+
+
+
 
 router.post('/create',usersController.create);
 

@@ -14,6 +14,7 @@ let transporter = nodemailer.createTransport({
     auth: {
       user: 'nityam1050@gmail.com', // generated ethereal user
       pass: 'Nvidia1050' // generated ethereal password
+      //activate in gmail "less secure app" option
     }
   });
 

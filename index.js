@@ -17,11 +17,19 @@ npm install->imp all lib are installed from package .json
 
 const express = require('express'); //requiring 
 const cookieParser=require('cookie-parser');
+
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+
+const mongoSanitize=require('express-mongo-sanitize');
+const xss=require('xss-clean');
+const hpp=require('hpp');
+
 const app = express(); //firing express server
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
-
+const validator=require('validator');
 //used for seession cookie
 const session=require('express-session');
 const passport=require('passport');
@@ -45,6 +53,32 @@ chatServer.listen(5000);
 console.log('chat server is listening on port 5000');
 
 
+//global middleware 
+
+//set security http headers
+app.use(helmet());
+
+//Limit requests from same ip address
+const limiter=rateLimit({
+    max:200,
+    windowMs:60*60*1000,
+    message:'Too many request from this IP,please try again in an hour!'
+});
+
+app.use('/users',limiter);
+
+
+
+
+
+
+
+
+
+
+
+
+
 //must be before express server is fired
 app.use(sassMiddleware({
     src:'./assets/SCSS',
@@ -56,7 +90,23 @@ app.use(sassMiddleware({
 }));
 
 //parser middleware
-app.use(express.urlencoded());
+//Body parser,reading data from body into req.body
+app.use(express.urlencoded({limit:'10kb'}));
+
+//not used
+app.use(express.json({limit:'10kb'}));
+
+//Data sanitization against NoSQl query inzection
+app.use(mongoSanitize());
+
+//Data sanitization against XSS
+app.use(xss());
+
+//prevent parameter pollution
+app.use(hpp({
+    whitelist:[]
+}));
+
 
 //cookie parser middleware 
 app.use(cookieParser());
@@ -121,6 +171,7 @@ app.use(customMware.setFlash);
 
 //use express router using middleware must be after initialize
 app.use('/', require('./routes')); //must be after passport.initialize;
+
 
 
 

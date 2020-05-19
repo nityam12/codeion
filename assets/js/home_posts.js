@@ -48,10 +48,10 @@
                         ${ post.content }
                         <br>
                         <small>
-                        ${ post.user.name }
+                        -- by ${ post.user.name }
                         &ensp;&ensp;
                         <small>
-                            <a class="delete-post-button"  href="/posts/destroy/${ post._id }"><i class="far fa-heart"></i></a>
+                            <a class="delete-post-button"  href="/posts/destroy/${ post._id }"><i class="fas fa-times-circle"></i></i></a>
                         </small>
 
                         </small>
@@ -60,7 +60,7 @@
                         <small>
                             
                         <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${post._id}&type=Post">
-                            0  <i class="far fa-heart"></i>
+                            0&ensp;&ensp;<i class="far fa-heart"></i>
                         </a>
                     
                 </small>

@@ -76,7 +76,7 @@ class PostComments{
                             </small>
                             <br>
                             <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Comment">
-                            0 <i class="far fa-heart"></i>
+                            0&ensp;&ensp;<i class="far fa-heart"></i>
                         </a>
                         </p>    
                                
