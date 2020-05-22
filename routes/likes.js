@@ -2,22 +2,10 @@ const express = require('express'); //same instance is passed from previous requ
 
 const router = express.Router();
 
-const likesController= require('../controllers/likes_controller');
+const passport = require('passport');
 
+const likesController = require('../controllers/likes_controller');
 
+router.post('/toggle', passport.checkAuthentication, likesController.toggleLike);
 
-router.post('/toggle',likesController.toggleLike);
-
-
-
-
-
-
-
-
-
-
-
-module.exports=router;
-
-
+module.exports = router;

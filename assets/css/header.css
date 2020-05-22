@@ -24,14 +24,26 @@ header {
     justify-content: space-between;
     align-items: center; }
     header #nav ul {
-      list-style: none; }
+      list-style: none;
+      display: flex;
+      justify-content: space-around;
+      align-items: center; }
       header #nav ul li {
-        display: inline-block;
-        margin-right: 8px; }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 10px; }
         header #nav ul li a {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
           text-decoration: none;
           color: #d4cfd2;
           font-size: 1.2rem; }
+          header #nav ul li a #profile-pic {
+            border-radius: 50%;
+            height: 50px;
+            width: 50px; }
 
 @-webkit-keyframes glow {
   from {

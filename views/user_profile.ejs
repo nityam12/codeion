@@ -1,77 +1,101 @@
 <!-- variable part-->
 <!-- add individual style to each page -->
 
-<link rel="stylesheet" href="/css/user_profile.css" type="text/css">
-
+<link rel="stylesheet" href="/css/user_profile.css" type="text/css" />
 
 <div id="user-profile-container">
+  <!-- <div id="img-container"><img src="<%= user.avatar %>" alt="<%= user.name %>" width="100" id="blah" /></div> -->
 
-<div id="img-container"><img src="<%= user.avatar %>" alt="<%= user.name %>" width="100" id="blah"> </div>
+  <% if(user.id == profile_user.id){ %>
+  <!-- if user matches then show form  -->
+  <div id="img-container"><img src="<%= user.avatar %>" alt="<%= user.name %>" width="100" id="blah" /></div>
+  <div id="form-container">
+    <form action="/users/update/<%=profile_user.id %>" enctype="multipart/form-data" method="POST" runat="server">
+      <h3>Update Your Info</h3>
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" placeholder="Your Name" value="<%=profile_user.name %>" required id="name" />
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Your Email"
+          value="<%=profile_user.email %>"
+          required
+          id="email"
+        />
+      </div>
+      <div>
+        <label for="about">About:</label>
+        <textarea id="about" rows="6" cols="50" placeholder="Write something about yourself"></textarea>
+ 
+      </div>
+      <div>
+        <label for="pro">Profile_pic::</label>
+        <input type="file" name="avatar" placeholder="Profile Picture" id="pro" />
+      </div>
 
+      <input type="submit" value="Update your info" class="subs" />
+    </form>
 
-
-
-<% if(user.id == profile_user.id){ %>
-     <!-- if user matches then show form  -->
-<div id="form-container">
-     <form action="/users/update/<%=profile_user.id %>" enctype="multipart/form-data" method="POST" runat="server">
-<label for="name">Name:</label>     
-<input type="text" name="name" placeholder="Your Name" value="<%=profile_user.name %>" required id="name">
-<label for="email">Email:</label>
-<input type="email" name="email" placeholder="Your Email" value="<%=profile_user.email %>" required id="email">
-<label for="pro">Profile_pic::</label>
-<input type="file" name="avatar" placeholder="Profile Picture" id="pro" accept=".jpg, .jpeg, .png">
-<input type="submit" value="update" id="subs">   
-</form>
-</div>
+    <form action="/users/update/password/<%=profile_user.id %>" method="post">
+      <h3>Change Password</h3>
+      <div>
+        <label for="current-password">Enter Current Password:</label>
+      <input
+        type="password"
+        name="currentpassword"
+        placeholder="Your current password"
+        required
+        id="current-password"
+      />
+      </div>
+      <div>
+        <label for="new-password">Enter New Password:</label>
+        <input type="password" name="newpassword" placeholder="Your new password" required id="new-password" />
+      </div>
+      <input type="submit" value="Change Password" class="subs" />
+      
+    </form>
+  </div>
   <%}else{%>
-         <!-- else show only  only the profile info -->
-        <div id="other-user-container">
-         <p>Email::&nbsp;<%= profile_user.email %></p>
-         <p>Name::&nbsp;<%= profile_user.name %></p>
-  
-   <% let i=0 %>
-         
-        <% for(f of user.friendships){ %>
-          
+  <!-- else show only  only the profile info -->
+  <div id="img-container">
+    <img src="<%= profile_user.avatar %>" alt="<%= profile_user.name %>" width="100" id="blah" />
+  </div>
+  <div id="other-user-container">
+    <p>Email::&nbsp;<%= profile_user.email %></p>
+    <p>Name::&nbsp;<%= profile_user.name %></p>
 
-          <% for(k of profile_user.friendships){ %>
-            
-                <% if(JSON.stringify(f._id) == JSON.stringify(k._id)){%>
-                 
-                  <% i=1 %>
-
-                 <%}%>
-
-            <%}%>
-
-        <%}%>
-<br>
-        <!-- <%=user.friendships%>
+    <% let i=0 %> <% for(f of user.friendships){ %> <% for(k of profile_user.friendships){ %> <%
+    if(JSON.stringify(f._id) == JSON.stringify(k._id)){%> <% i=1 %> <%}%> <%}%> <%}%>
+    <br />
+    <!-- <%=user.friendships%>
         <br>
         <%=profile_user.friendships%>
         <br> -->
-        <!-- <%=i%> -->
+    <!-- <%=i%> -->
 
- <%if(i==0){%>
- <a id="friend-link" class="make-friend-link" href="friends/make/?from=<%=user._id %>&to=<%=profile_user._id%>">send friend request</a>
-<%}else{%>
-  <a id="friend-link" class="make-friend-link" href="friends/make/?from=<%=user._id %>&to=<%=profile_user._id%>">Unfriend</a>
-  <%}%>
+    <%if(i==0){%>
+    <a id="friend-link" class="make-friend-link" href="friends/make/?from=<%=user._id %>&to=<%=profile_user._id%>"
+      >send friend request</a
+    >
+    <%}else{%>
+    <a id="friend-link" class="make-friend-link" href="friends/make/?from=<%=user._id %>&to=<%=profile_user._id%>"
+      >Unfriend</a
+    >
+    <%}%>
+  </div>
 </div>
 
-</div>
+<script src="/js/join_friend.js"></script>
 
- <script src="/js/join_friend.js"></script>
- 
- <script>
-       
-   new FriendRequest('friendlink');
-      
- </script> 
+<script>
+  new FriendRequest('friendlink');
+</script>
 
-<%}%>  
+<%}%>
 
 <script src="/js/file_upload.js"></script>
-  
-

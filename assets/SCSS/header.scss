@@ -36,17 +36,37 @@ header{
                
                 ul{
                     list-style: none;
+                    display:flex;
+            justify-content:space-around;
+
+            align-items:center;
 
                         li{
 
-                            display:inline-block;
-                            margin-right:8px;
-                            
+                            // display:inline-block;
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                            margin-right:10px;
+                            // text-align: center;
+                            // vertical-align:middle;
 
-                            a{
+                            a{  
+                                display:flex;
+                            justify-content:space-between;
+                            align-items:center;
                                 text-decoration: none;
                                 color:#d4cfd2;
                                 font-size:1.2rem;
+                                // text-align: center;
+                                // vertical-align:middle;
+
+                                #profile-pic{
+                                     border-radius:50%;
+                                     height:50px;
+                                     width:50px;
+                                }
+                                
                             }
                         }
 

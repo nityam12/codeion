@@ -13,7 +13,9 @@
             <li>
                 
                 <a href="/users/profile/<%= locals.user._id %>">
+                <img  id="profile-pic" src="<%=locals.user.avatar%>" alt="<%=locals.user.name%>">&ensp;    
                 <%= user.name %></a>
+            </li>
             <li>
                 <a href="/users/sign-out">Sign Out</a>
             </li>

@@ -1,13 +1,7 @@
-const express = require('express'); //same instance is passed from previous require index.js
-const router = express.Router(); 
+const express = require('express');
+//same instance is passed from previous require index.js
+const router = express.Router();
 
+router.use('/v1', require('./v1'));
 
-
-
-router.use('/v1',require('./v1'));
-
-
-
-
-
-module.exports=router;
+module.exports = router;

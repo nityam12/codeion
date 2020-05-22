@@ -1,52 +1,53 @@
 const express = require('express');
+
 const router = express.Router();
 
-const passport=require('passport');
+const passport = require('passport');
 
 const usersController = require('../controllers/users_controller');
 
+router.get('/profile/:id', passport.checkAuthentication, usersController.profile);
+// eslint-disable-next-line prettier/prettier
+router.post('/update/:id', passport.checkAuthentication, usersController.update);
+router.post('/update/password/:id', passport.checkAuthentication, usersController.updatepassword);
 
+router.get('/sign-up', usersController.signUp);
+router.get('/sign-in', usersController.signIn);
 
-router.get('/profile/:id',passport.checkAuthentication,usersController.profile);
-router.post('/update/:id',passport.checkAuthentication,usersController.update);
-
-
-router.get('/sign-up',usersController.signUp);
-router.get('/sign-in',usersController.signIn);
-
-router.get('/forgot',usersController.forgotpage);
-router.post('/forgotPassword',usersController.forgotPassword);
+router.get('/forgot', usersController.forgotpage);
+router.post('/forgotPassword', usersController.forgotPassword);
 // router.post('/forgotPassword',usersController.forgotPassword);
-router.get('/resetPassword/:token',usersController.resetPassword);
-router.post('/resetPasswordupdate/:token',usersController.resetPassword2);
+router.get('/resetPassword/:token', usersController.resetPassword);
+router.post('/resetPasswordupdate/:token', usersController.resetPassword2);
 
-router.get('/verify/:token',usersController.verifyAccount);
+router.get('/verify/:token', usersController.verifyAccount);
 
-
-
-
-
-router.post('/create',usersController.create);
+router.post('/create', usersController.create);
 
 //for posts
-router.post('/posts')
+router.post('/posts');
 
 //use passport as a middleware to authenticate
-router.post('/create-session',passport.authenticate(
-    'local',//strategy
-    {failureRedirect:'/users/sign-in'}
-),usersController.createSession);//on success to this action
+router.post(
+  '/create-session',
+  passport.authenticate(
+    'local', //strategy
+    { failureRedirect: '/users/sign-in' }
+  ),
+  usersController.createSession
+); //on success to this action
 
-router.get('/sign-out',usersController.destroySession);
+router.get('/sign-out', usersController.destroySession);
 
-router.use('/profile/friends',require('./friends'));
-
-
+router.use('/profile/friends', require('./friends'));
 
 //google
 
-router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}));
-router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/users/sign-in'}),usersController.createSession);
-
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/users/sign-in' }),
+  usersController.createSession
+);
 
 module.exports = router;

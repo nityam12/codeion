@@ -1,5 +1,5 @@
 //first install expressusing terminal npm install express then fire up expressby requiring it
-//use nodemon index.js to run server ative 
+//use nodemon index.js to run server ative
 /*
 "start": "nodemon index.js",
 add this statement in package.json in script part to get rid of repeative command
@@ -13,88 +13,73 @@ npm install->imp all lib are installed from package .json
 
 */
 
-
-
-const express = require('express'); //requiring 
-const cookieParser=require('cookie-parser');
+const express = require('express'); //requiring
+const cookieParser = require('cookie-parser');
 
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 
-const mongoSanitize=require('express-mongo-sanitize');
-const xss=require('xss-clean');
-const hpp=require('hpp');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const app = express(); //firing express server
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
-const validator=require('validator');
+const validator = require('validator');
 //used for seession cookie
-const session=require('express-session');
-const passport=require('passport');
-const passportLocal=require('./config/passport-local-strategy');
-const passportJWT=require('./config/passport-jwt-strategy');
-const passportGoogle=require('./config/passport-google-oauth2-strategy');
+const session = require('express-session');
+const passport = require('passport');
+const passportLocal = require('./config/passport-local-strategy');
+const passportJWT = require('./config/passport-jwt-strategy');
+const passportGoogle = require('./config/passport-google-oauth2-strategy');
 
+const MongoStore = require('connect-mongo')(session);
 
-const MongoStore=require('connect-mongo')(session);
-
-const sassMiddleware=require('node-sass-middleware');
+const sassMiddleware = require('node-sass-middleware');
 
 //for showing flash
-const flash=require('connect-flash');
-const customMware=require('./config/middleware');
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
 
 // setup the chat server to be used with socket.io
-const chatServer = require('http').Server(app);//express app http inbuilt module
+const chatServer = require('http').Server(app); //express app http inbuilt module
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 chatServer.listen(5000);
 console.log('chat server is listening on port 5000');
 
-
-//global middleware 
+//global middleware
 
 //set security http headers
 app.use(helmet());
 
 //Limit requests from same ip address
-const limiter=rateLimit({
-    max:200,
-    windowMs:60*60*1000,
-    message:'Too many request from this IP,please try again in an hour!'
+const limiter = rateLimit({
+  max: 200,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many request from this IP,please try again in an hour!',
 });
 
-app.use('/users',limiter);
-
-
-
-
-
-
-
-
-
-
-
-
+app.use('/users', limiter);
 
 //must be before express server is fired
-app.use(sassMiddleware({
-    src:'./assets/SCSS',
-    dest:'./assets/css',
-    debug:true,//display errors in terminal
-    outputStyle:'extended',
-    prefix:'/css'
-
-}));
+app.use(
+  sassMiddleware({
+    src: './assets/SCSS',
+    dest: './assets/css',
+    debug: true, //display errors in terminal
+    outputStyle: 'extended',
+    prefix: '/css',
+  })
+);
 
 //parser middleware
 //Body parser,reading data from body into req.body
-app.use(express.urlencoded({limit:'10kb'}));
+app.use(express.urlencoded({ limit: '10kb' }));
 
 //not used
-app.use(express.json({limit:'10kb'}));
+app.use(express.json({ limit: '10kb' }));
 
 //Data sanitization against NoSQl query inzection
 app.use(mongoSanitize());
@@ -103,30 +88,25 @@ app.use(mongoSanitize());
 app.use(xss());
 
 //prevent parameter pollution
-app.use(hpp({
-    whitelist:[]
-}));
+app.use(
+  hpp({
+    whitelist: [],
+  })
+);
 
-
-//cookie parser middleware 
+//cookie parser middleware
 app.use(cookieParser());
 
 app.use(express.static('./assets')); //for including static files
 
 //make the upload file available to browser
-app.use('/uploads',express.static(__dirname + '/uploads'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.use(expressLayouts); //must be before routes  before rendering
 
 //extract style and scripts from sub pages into the layout uses express-ejs-layouts see documentation
 app.set('layout extractStyles', true); //add individual style to each page-- >
 app.set('layout extractScripts', true); //add individual style to each page-- >
-
-
-
-
-
-
 
 //set up view or template engine ejs
 //first install-> npm install ejs
@@ -136,49 +116,52 @@ app.set('views', './views');
 
 //midleware used for enrypting session cookie of express cookie
 //mongo store is used to store the session cookie in db
-app.use(session({
-    name:'codeial',//name for cookie
+app.use(
+  session({
+    name: 'codeial', //name for cookie
     //to change secret before deployment
-    secret:'blahsomething', //key to encode & decode
-    saveUninitialized:false, //no need to save uninitialized login info 
-    resave:false, //no need to re-save data
-    cookie:{ //cookie validity
-        maxAge:(1000*60*100) //in ms
+    secret: 'blahsomething', //key to encode & decode
+    saveUninitialized: false, //no need to save uninitialized login info
+    resave: false, //no need to re-save data
+    cookie: {
+      //cookie validity
+      maxAge: 1000 * 60 * 100, //in ms
+      //secure:true  necessary
+      //httpOnly:true by default
     },
-    store:new MongoStore( //using mongo store //session is permanentyly stored on server
-        { //instance of mongo store
-            mongooseConnection:db,
-            autoRemove:'disabled'
-        },
-        function(err) //callback fn to show err
-        {
-            console.log(err || 'connect-mongodb setup ok');
-        }
-   )
-}));
-
+    store: new MongoStore( //using mongo store //session is permanentyly stored on server
+      {
+        //instance of mongo store
+        mongooseConnection: db,
+        autoRemove: 'disabled',
+      },
+      function (
+        err //callback fn to show err
+      ) {
+        console.log(err || 'connect-mongodb setup ok');
+      }
+    ),
+  })
+);
 
 app.use(passport.initialize()); //passport also helps in storing session cookie
 app.use(passport.session());
 
+app.use(passport.setAuthenticatedUser); //this fn is automatically called as middleware
 
-app.use(passport.setAuthenticatedUser);//this fn is automatically called as middleware
-
-app.use(flash());//must be placed after session cookie as it uses it 
+app.use(flash()); //must be placed after session cookie as it uses it
 
 app.use(customMware.setFlash);
-
 
 //use express router using middleware must be after initialize
 app.use('/', require('./routes')); //must be after passport.initialize;
 
-
-
-
-
-app.listen(port, function(err) {
-    if (err) {
-        console.log(`Error:${err}`); //interpolation
-    }
-    console.log(`Server is running on port:${port}`);
+app.listen(port, function (err) {
+  if (err) {
+    console.log(`Error:${err}`); //interpolation
+  }
+  console.log(`Server is running on port:${port}`);
 });
+
+// require('events').EventEmitter.defaultMaxListeners = 15;
+// require('events').EventEmitter.prototype._maxListeners = 100;
