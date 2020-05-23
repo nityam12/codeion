@@ -66,6 +66,7 @@ module.exports.update = async function (req, res) {
         }
 
         // console.log(req.file);
+        user.about = req.body.about;
         user.name = req.body.name;
         user.email = req.body.email;
         if (req.file) {

@@ -9,7 +9,7 @@ const AVATAR_PATH = path.join('/uploads/users/avatars');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const sharp = require('sharp');
+// const sharp = require('sharp');
 
 const userSchema = new mongoose.Schema(
   {
@@ -91,12 +91,12 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-userSchema.methods.resizeUserPhoto = function (req) {
+// userSchema.methods.resizeUserPhoto = function (req) {
 
-  req.file.filename
-  sharp(req.file.buffer).resize(800, 800).toFormat('jpeg').jpeg({ quality: 90 });
+//   req.file.filename
+//   sharp(req.file.buffer).resize(800, 800).toFormat('jpeg').jpeg({ quality: 90 });
 
-};
+// };
 //forgot pass
 //instance method
 userSchema.methods.createPasswordResetToken = function () {
