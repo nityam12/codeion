@@ -6,7 +6,13 @@ const passport = require('passport');
 
 const postsController = require('../controllers/posts_controller');
 
-router.post('/create', passport.checkAuthentication, postsController.uploadpostpic, postsController.create);
+router.post(
+  '/create',
+  passport.checkAuthentication,
+  postsController.uploadUserPhoto,
+  postsController.resizeUserPhoto,
+  postsController.create
+);
 
 router.get('/destroy/:id', passport.checkAuthentication, postsController.destroy);
 //:id params string params

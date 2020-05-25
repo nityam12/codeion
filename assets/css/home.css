@@ -31,7 +31,7 @@ article {
       #home-container #adv-sec div img:hover {
         transform: scale(1.2); }
   #home-container #feed-posts {
-    width: 55%;
+    width: 60%;
     padding: 10px;
     height: 100%;
     display: flex;
@@ -39,18 +39,27 @@ article {
     background-color: #d3d9e0;
     border-right: 5px dashed #af3832; }
     #home-container #feed-posts h4 {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: bolder;
-      color: #851cd4ed;
-      font-family: tahoma; }
-    #home-container #feed-posts textarea {
-      background-color: #d3d9e0;
-      border: 1px solid black;
-      font-size: 16px;
-      font-weight: 300;
-      padding: 5px; }
-      #home-container #feed-posts textarea::placeholder {
-        color: brown; }
+      font-family: tahoma;
+      text-shadow: 2px 2px #FF0000; }
+    #home-container #feed-posts #post-content-container {
+      display: flex;
+      height: 300px;
+      width: 90%; }
+      #home-container #feed-posts #post-content-container textarea {
+        background-color: #d3d9e0;
+        border: 1px solid black;
+        font-size: 20px;
+        font-weight: 400;
+        padding: 12px;
+        height: 100%;
+        width: 100%;
+        line-height: 1.6;
+        text-align: justify;
+        box-shadow: 0px 0px 5px 7px #b711119e; }
+        #home-container #feed-posts #post-content-container textarea::placeholder {
+          color: brown; }
     #home-container #feed-posts #post-submit {
       background-color: #008e9e;
       height: 50px;
@@ -58,13 +67,19 @@ article {
       border-radius: 50%;
       cursor: pointer;
       border: 1px solid black;
-      transition: all 0.5s ease-in-out;
+      transition: transform 0.5s ease-in-out;
       color: white;
-      outline: none; }
+      outline: none;
+      margin-top: 10px; }
     #home-container #feed-posts #post-submit:hover {
       outline: none;
-      transform: scale(1.2);
+      transform: scale(0.8);
       box-shadow: 0px 0px 3px 3px #e29506; }
+    #home-container #feed-posts #post-submit:active {
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+      outline: none !important; }
     #home-container #feed-posts #posts-list-container ul {
       list-style: none; }
     #home-container #feed-posts #posts-list-container ul > li > p {
@@ -76,10 +91,8 @@ article {
       margin-left: -39px;
       line-height: 1.6;
       border-radius: 0.8rem; }
-      #home-container #feed-posts #posts-list-container ul > li > p small {
-        color: cyan; }
   #home-container #user-friends {
-    width: 25%;
+    width: 20%;
     padding: 10px;
     border-left: 1px solid lightgrey;
     height: 100%;

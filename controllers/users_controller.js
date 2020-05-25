@@ -1,10 +1,13 @@
-const User = require('../models/user');
+const multer = require('multer');
+const jimp = require('jimp');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const queue = require('../config/kue');
+const User = require('../models/user');
 const ResetWorker = require('../workers/password_reset_worker');
 const AccountVerifier = require('../workers/account_verification_worker');
+const AVATAR_PATH = path.join('/uploads/users/avatars');
 
 //let's keep it same as before-one callback
 module.exports.profile = function (req, res) {
@@ -38,6 +41,43 @@ module.exports.updatepassword = async function (req, res) {
   }
 };
 
+const storage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(req.flash('error', 'Please upload only images.'), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: multerFilter,
+});
+
+module.exports.uploadUserPhoto = upload.single('avatar');
+
+module.exports.resizeUserPhoto = async (req, res, next) => {
+  try {
+    if (!req.file) return next();
+    // console.log(req.body);
+    // console.log(req.file);
+    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+    const image = await jimp.read(req.file.buffer);
+    image
+      .resize(800, 800)
+
+      .quality(90)
+
+      .write(`uploads/users/avatars/${req.file.filename}`);
+
+    next();
+  } catch (err) {
+    console.log('error', err);
+  }
+};
+
 module.exports.update = async function (req, res) {
   //alternate -way for req.body--->  {name:req.body.name,email:req.body.email};
   //
@@ -51,50 +91,52 @@ module.exports.update = async function (req, res) {
   //     req.flash('error','not authorized to update details');
   //     return res.status(401).send('unauthorized');//giving status
   // }
-
-  if (req.body.password) {
-    req.flash('error', 'Sorry password cannot be changed');
-    return res.redirect('back');
-  }
-
-  if (req.user.id === req.params.id) {
-    try {
-      const user = await User.findById(req.params.id);
-      User.uploadedAvatar(req, res, function (err) {
-        if (err) {
-          console.log('*****-Multer:error', err);
-        }
-
-        // console.log(req.file);
-        user.about = req.body.about;
-        user.name = req.body.name;
-        user.email = req.body.email;
-        if (req.file) {
-          if (user.avatar) {
-            if (fs.existsSync(path.join(__dirname, '..', user.avatar))) {
-              fs.unlinkSync(path.join(__dirname, '..', user.avatar), function (err) {
-                if (err) throw err;
-              });
-            }
-          }
-
-          // this is saving the path of the uploaded file into the avatar field in the user
-
-          user.avatar = User.avatarPath + '/' + req.file.filename;
-        }
-        user.save();
-        req.flash('success', 'Info Updated successfully');
-        return res.redirect('back');
-      });
-    } catch (err) {
-      req.flash('error', err);
+  try {
+    // console.log('55555555555555555555555555');
+    if (req.body.password) {
+      req.flash('error', 'Sorry password cannot be changed');
       return res.redirect('back');
     }
-  } else {
+
+    if (req.user.id === req.params.id) {
+      const user = await User.findById(req.params.id);
+      // User.uploadedAvatar(req, res, function (err) {
+      //   if (err) {
+      //     console.log('*****-Multer:error', err);
+      //   }
+
+      // console.log(req.file);
+      if (req.body.about !== '') user.about = req.body.about;
+
+      user.name = req.body.name;
+      user.email = req.body.email;
+      if (req.file) {
+        if (user.avatar) {
+          if (fs.existsSync(path.join(__dirname, '..', user.avatar))) {
+            fs.unlinkSync(path.join(__dirname, '..', user.avatar), function (err) {
+              if (err) throw err;
+            });
+          }
+        }
+
+      // this is saving the path of the uploaded file into the avatar field in the user
+
+      user.avatar = User.avatarPath + '/' + req.file.filename;
+      }
+      user.save();
+      req.flash('success', 'Info Updated successfully');
+      return res.redirect('back');
+    }
+  } catch (err) {
+    req.flash('error', err);
     req.flash('error', 'not authorized to update details');
-    return res.status(401).send('unauthorized'); //giving status
+    return res.redirect('back');
   }
 };
+// else {
+//   // req.flash('error', 'not authorized to update details');
+//   // return res.status(401).send('unauthorized'); //giving status
+// }
 
 //action for sin up
 module.exports.signUp = function (req, res) {

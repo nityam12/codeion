@@ -9,7 +9,7 @@ const AVATAR_PATH = path.join('/uploads/users/avatars');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-// const sharp = require('sharp');
+const jimp = require('jimp');
 
 const userSchema = new mongoose.Schema(
   {
@@ -72,31 +72,53 @@ userSchema.methods.correctPassword = async function (candidatePassword, userPass
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '..', AVATAR_PATH));
-  },
-  filename: function (req, file, cb) {
-    const ext = file.mimetype.split('/')[1];
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-    // cb(null, file.fieldname + '-' + Date.now());
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, path.join(__dirname, '..', AVATAR_PATH));
+//   },
+//   filename: function (req, file, cb) {
+//     const ext = file.mimetype.split('/')[1];
+//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+//     // cb(null, file.fieldname + '-' + Date.now());
+//   },
+// });
 
-const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image')) {
-    cb(null, true);
-  } else {
-    cb(req.flash('error', 'Please upload only images.'), false);
-  }
-};
+// const storage = multer.memoryStorage();
 
-// userSchema.methods.resizeUserPhoto = function (req) {
-
-//   req.file.filename
-//   sharp(req.file.buffer).resize(800, 800).toFormat('jpeg').jpeg({ quality: 90 });
-
+// const multerFilter = (req, file, cb) => {
+//   if (file.mimetype.startsWith('image')) {
+//     cb(null, true);
+//   } else {
+//     cb(req.flash('error', 'Please upload only images.'), false);
+//   }
 // };
+
+// const upload = multer({
+//   storage: storage,
+
+//   fileFilter: multerFilter,
+// });
+
+// module.exports.uploadUserPhoto = upload.single('photo');
+
+// module.exports.resizeUserPhoto = async (req, res, next) => {
+//   if (!req.file) return next();
+
+//   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+
+//   const image = await jimp.read(req.file.buffer);
+//   image
+//     .resize(800, 800)
+
+//     .quality(90)
+
+//     .write(`${AVATAR_PATH}/{req.file.filename}`);
+
+//   next();
+// };
+
+userSchema.statics.avatarPath = AVATAR_PATH;
+
 //forgot pass
 //instance method
 userSchema.methods.createPasswordResetToken = function () {
@@ -125,8 +147,7 @@ userSchema.methods.createAccountVerifyToken = function () {
 
 //static methods
 
-userSchema.statics.uploadedAvatar = multer({ storage: storage, fileFilter: multerFilter }).single('avatar');
-userSchema.statics.avatarPath = AVATAR_PATH;
+// userSchema.statics.uploadedAvatar = multer({ storage: storage, fileFilter: multerFilter }).single('avatar');
 
 const User = mongoose.model('User', userSchema); //telling mongoose this is a model --collection
 

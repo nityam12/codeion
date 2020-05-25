@@ -93,7 +93,7 @@ module.exports.home = async function (req, res) {
     //   let user= await User.findById(locals.user._id)
 
     return res.render('home', {
-      title: 'Codeial | Home',
+      title: 'Gameomania | Home',
       posts: posts,
       all_users: users,
       personal: personal,

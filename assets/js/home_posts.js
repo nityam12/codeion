@@ -5,13 +5,49 @@
 
     newPostForm.submit(function (e) {
       e.preventDefault();
+      // console.log(document.getElementById('images').files);
+      const form = new FormData();
+      form.append('content', document.getElementById('post-content').value);
+      $('#post-content').val("");
+      // form.append('images', document.getElementById('images').files[3]);
+
+      if (parseInt(document.getElementById('images').files.length) > 3) {
+        alert('You can only upload a maximum of 3 files');
+        return;
+      }
+
+      const files = document.getElementById('images').files;
+      const counter = files.length;
+      for (let i = 0; i < counter; i++) {
+        form.append('images', files[i]);
+      }
 
       $.ajax({
         type: 'post',
+        enctype: 'multipart/form-data',
         url: '/posts/create',
-        data: newPostForm.serialize(),
+        // data: newPostForm.serialize(),
+        data: form,
+        // processData: false,
+        processData: false,
+        contentType: false,
         success: function (data) {
-          let newPost = newPostDom(data.data.post);
+          
+          const imj = data.data.post.images;
+          // const uop = $(' #grand-image', newPost);
+          const newDiv = document.createElement('div');
+          const newDivs = document.createElement('div');
+          $(newDiv).attr('id','grand-image');
+          for (const i of imj) {
+            $(newDiv).append(
+              '<p class="img-container"><img class="post-img" src="/images/uploads/user_post_img/' + i + '"></p>'
+            );
+          }
+
+          $(newDivs).append(newDiv);
+          const newPost = newPostDom(data.data.post, newDivs);
+          console.log(newDiv);
+         
           $('#posts-list-container>ul').prepend(newPost);
           deletePost($(' .delete-post-button', newPost));
 
@@ -27,7 +63,7 @@
             type: 'success',
             layout: 'topRight',
             timeout: 1500,
-          }).show();
+          }).show(); 
         },
         error: function (error) {
           console.log(error.responseText);
@@ -37,13 +73,13 @@
   };
 
   // method to create a post in DOM
-  let newPostDom = function (post) {
+  let newPostDom = function (post,newDivs) {
     return $(`<li id="post-${post._id}">
                     <p>
-                        
-                        
-                       
                         ${post.content}
+                        <br>
+                        ${newDivs.innerHTML}
+                        <br>
                         <br>
                         <small>
                         -- by ${post.user.name}
@@ -52,8 +88,8 @@
                             <a class="delete-post-button"  href="/posts/destroy/${post._id}"><i class="fas fa-times-circle"></i></i></a>
                         </small>
 
-                        </small>
-
+                        
+                        <br>
                         <br>
                         <small>
                             

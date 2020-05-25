@@ -48,9 +48,16 @@
       color: #f04b0a; }
     #user-chat-box #chat-message-input-container #send-message {
       height: 50%;
-      width: 30%;
-      font-size: 25px;
+      width: 20%;
+      font-size: 20px;
       color: white;
       border: none;
+      background: #58d258;
+      cursor: pointer; }
+    #user-chat-box #chat-message-input-container #share-location {
+      height: 50%;
+      width: 10%;
+      font-size: 15px;
+      color: white;
       background: #58d258;
       cursor: pointer; }

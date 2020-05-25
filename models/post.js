@@ -10,11 +10,7 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId, //schema of type object id-pleaserefer to documents
       ref: 'User', //refered to user schema
     },
-    images: [
-      {
-        type: String,
-      },
-    ],
+    images: [String],
     //include the array of ids of all contents in yhis post schema itself
     Comments: [
       {

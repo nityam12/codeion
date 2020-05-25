@@ -39,6 +39,7 @@ module.exports.chatSockets = function (socketServer) {
 
     socket.on('disconnect', function () {
       console.log('socket disconnected!');
+      io.emit('leave', 'A user has left!');
     });
 
     socket.on('join_room', function (data) {
@@ -47,11 +48,20 @@ module.exports.chatSockets = function (socketServer) {
       socket.join(data.chatroom); //joining user to chat room
 
       io.in(data.chatroom).emit('user_joined', data);
+      //socket.broadcast.emit() alternative
     });
 
     // CHANGE :: detect send_message and broadcast to everyone in the room
     socket.on('send_message', function (data) {
       io.in(data.chatroom).emit('receive_message', data);
+    });
+
+    socket.on('sendlocation', function (coords) {
+      io.in(coords.chatroom).emit('receive_message', {
+        message: `https://google.com/maps?q=${coords.latitude},${coords.longitude}`,
+        user_email: coords.userEmail,
+        chatroom: coords.chatroom,
+      });
     });
   });
 };

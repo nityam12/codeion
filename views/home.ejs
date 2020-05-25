@@ -28,8 +28,19 @@
     <h4>Posts</h4>
     <!-- locals is an object of res use locals.user instead of user -->
     <% if(locals.user){%>
-    <form action="/posts/create" id="new-post-form" method="POST" enctype="multipart/form-data" runat="server">
-      <textarea name="content" cols="60" rows="8" placeholder="TypeHere.." required autofocus></textarea>
+    <form action="/posts/create" id="new-post-form" method="POST">
+      <div id="post-content-container">
+        <textarea
+          name="content"
+          id="post-content"
+          cols="40"
+          rows="8"
+          placeholder="TypeHere.."
+          required
+          autofocus
+        ></textarea>
+      </div>
+
       <label for="images">Add pics:</label>&ensp;
       <input type="file" name="images" id="images" placeholder="add image" accept="image/*" multiple />
       &ensp;&ensp;
