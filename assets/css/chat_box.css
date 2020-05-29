@@ -3,11 +3,12 @@
   bottom: 10px;
   z-index: 3;
   right: 10px;
-  height: 350px;
-  width: 300px;
+  height: 450px;
+  width: 400px;
   background: black;
   padding: 5px;
-  box-shadow: 0px 0px 3px 3px lightgrey; }
+  box-shadow: 0px 0px 3px 3px lightgrey;
+  display: none; }
   #user-chat-box #chat-messages-list {
     list-style: none;
     padding: 10px;
@@ -21,6 +22,10 @@
         display: inline-block;
         padding: 15px;
         background-color: #ffa0a0; }
+      #user-chat-box #chat-messages-list .other-message sup {
+        color: #0ee74f;
+        display: inline-block;
+        width: 100%; }
       #user-chat-box #chat-messages-list .other-message sub {
         color: white;
         display: inline-block;
@@ -32,6 +37,11 @@
         display: inline-block;
         padding: 15px;
         background-color: #a0dcff; }
+      #user-chat-box #chat-messages-list .self-message sup {
+        color: #0ee74f;
+        display: inline-block;
+        width: 100%;
+        font-size: 14px; }
       #user-chat-box #chat-messages-list .self-message sub {
         color: white;
         display: inline-block;
@@ -48,7 +58,7 @@
       color: #f04b0a; }
     #user-chat-box #chat-message-input-container #send-message {
       height: 50%;
-      width: 20%;
+      width: 15%;
       font-size: 20px;
       color: white;
       border: none;
@@ -56,8 +66,9 @@
       cursor: pointer; }
     #user-chat-box #chat-message-input-container #share-location {
       height: 50%;
-      width: 10%;
-      font-size: 15px;
+      width: 15%;
+      font-size: 20px;
       color: white;
+      border-left: 1px solid black;
       background: #58d258;
       cursor: pointer; }

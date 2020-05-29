@@ -1,3 +1,5 @@
+const Filter = require('bad-words');
+const { generateMessage, generateLocationMessage } = require('../assets/js/message.js');
 // //for backend
 // //for receivin connection
 // //first event-----connection
@@ -39,29 +41,51 @@ module.exports.chatSockets = function (socketServer) {
 
     socket.on('disconnect', function () {
       console.log('socket disconnected!');
-      io.emit('leave', 'A user has left!');
+      // socket.broadcast
+      //   .to(data.chatroom)
+      //   .emit(
+      //     'receive_message',
+      //     generateMessage(`${data.user_name} has left`, data.user_email, data.user_Name, data.chatroom)
+      //   );
     });
 
     socket.on('join_room', function (data) {
       console.log('joining request rec.', data);
 
+      socket.emit('receive_message', generateMessage('Welcome!', data.user_email, data.user_name, data.chatroom));
       socket.join(data.chatroom); //joining user to chat room
 
-      io.in(data.chatroom).emit('user_joined', data);
+      socket.broadcast
+        .to(data.chatroom)
+        .emit(
+          'receive_message',
+          generateMessage(`${data.user_name} has joined`, data.user_email, data.user_name, data.chatroom)
+        );
+      // io.in(data.chatroom).emit('user_joined', data);//this emit to all in room
       //socket.broadcast.emit() alternative
     });
 
     // CHANGE :: detect send_message and broadcast to everyone in the room
-    socket.on('send_message', function (data) {
-      io.in(data.chatroom).emit('receive_message', data);
+    socket.on('send_message', function (data, callback) {
+      const filter = new Filter();
+
+      if (filter.isProfane(data.message)) {
+        return callback('profanity is not allowed!');
+      }
+      io.in(data.chatroom).emit('receive_message', generateMessage(data.message, data.user_email,data.user_name, data.chatroom));
+      callback();
     });
 
-    socket.on('sendlocation', function (coords) {
-      io.in(coords.chatroom).emit('receive_message', {
-        message: `https://google.com/maps?q=${coords.latitude},${coords.longitude}`,
-        user_email: coords.userEmail,
-        chatroom: coords.chatroom,
-      });
+    socket.on('sendlocation', function (coords, callback) {
+      io.in(coords.chatroom).emit(
+        'receive_location',
+        generateLocationMessage(
+          `https://google.com/maps?q=${coords.latitude},${coords.longitude} `,
+          coords.userEmail,
+          coords.chatroom
+        )
+      );
+      callback();
     });
   });
 };

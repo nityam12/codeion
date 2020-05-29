@@ -3,20 +3,60 @@ const jimp = require('jimp');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const passwordValidator = require('password-validator');
 const queue = require('../config/kue');
 const User = require('../models/user');
+const Post = require('../models/post');
 const ResetWorker = require('../workers/password_reset_worker');
 const AccountVerifier = require('../workers/account_verification_worker');
 const AVATAR_PATH = path.join('/uploads/users/avatars');
 
+let test = new passwordValidator();
+
+test
+  .is()
+  .min(8) // Minimum length 8
+  .is()
+  .max(100) // Maximum length 100
+  .has()
+  .uppercase() // Must have uppercase letters
+  .has()
+  .lowercase() // Must have lowercase letters
+  .has()
+  .digits() // Must have digits
+  .has()
+  .not()
+  .spaces() // Should not have spaces
+  // .symbols()
+  .is()
+  .not()
+  .oneOf(['Passw0rd', 'Password123']); // Blacklist these values
+
 //let's keep it same as before-one callback
-module.exports.profile = function (req, res) {
-  User.findById(req.params.id, function (err, user) {
+module.exports.profile = async function (req, res) {
+  try {
+    const posts = await Post.find({ user: req.params.id })
+      .sort('-createdAt') //in this way data is stored in mongo db
+      .populate('user')
+      .populate({
+        path: 'Comments',
+        populate: {
+          path: 'user likes',
+        },
+
+        //   problem here  likes of comment not populated
+      })
+      .populate('likes');
+    const user = await User.findById(req.params.id);
+    // console.log(posts);
     return res.render('user_profile', {
       title: 'My Profile',
       profile_user: user,
+      posts: posts,
     });
-  });
+  } catch (err) {
+    console.log('error', err);
+  }
 };
 
 module.exports.updatepassword = async function (req, res) {
@@ -119,9 +159,9 @@ module.exports.update = async function (req, res) {
           }
         }
 
-      // this is saving the path of the uploaded file into the avatar field in the user
+        // this is saving the path of the uploaded file into the avatar field in the user
 
-      user.avatar = User.avatarPath + '/' + req.file.filename;
+        user.avatar = User.avatarPath + '/' + req.file.filename;
       }
       user.save();
       req.flash('success', 'Info Updated successfully');
@@ -162,8 +202,13 @@ module.exports.signIn = function (req, res) {
 //get the sign up data
 module.exports.create = async function (req, res) {
   try {
-    if (req.body.password != req.body.confirm_password) {
+    if (req.body.password !== req.body.confirm_password) {
       req.flash('error', 'password and confirm password does not match');
+      return res.redirect('back');
+    }
+
+    if (!test.validate(req.body.password)) {
+      req.flash('error', 'please choose a strong password | space not allowed');
       return res.redirect('back');
     }
 

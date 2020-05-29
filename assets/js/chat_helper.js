@@ -1,12 +1,13 @@
-// CHANGE :: create a class to toggle likes when a link is clicked, using AJAX
-class ToggleLike {
-  constructor(toggleElement) {
-    this.toggler = toggleElement;
-    this.toggleLike();
+
+
+class Chatter {
+  constructor(chatElement) {
+    this.chats = chatElement;
+    this.activate();
   }
 
-  toggleLike() {
-    $(this.toggler).click(function (e) {
+  activate() {
+    $(this.chats).click(function (e) {
       e.preventDefault();
       let self = this;
 
@@ -16,24 +17,16 @@ class ToggleLike {
         url: $(self).attr('href'),
       })
         .done(function (data) {
-          let likesCount = parseInt($(self).attr('data-likes'));
-          // console.log(likesCount);
-          if (data.data.deleted == true) {
-            likesCount -= 1;
-          } else {
-            likesCount += 1;
-          }
 
-          $(self).attr('data-likes', likesCount);
-          $(self).html(`${likesCount}&ensp;&ensp;<i class="far fa-heart"></i>`);
-
+            $('#user-chat-box').css('display', 'block');
+   
+          new ChatEngine('user-chat-box', data.email, data.name, data.chatroom);
           // new Noty({
           //     theme: 'relax',
           //     text: "liked",
           //     type: 'success',
           //     layout: 'topRight',
           //     timeout: 1500
-
           // }).show();
         })
         .fail(function (errData) {

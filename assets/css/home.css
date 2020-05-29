@@ -125,6 +125,12 @@ article {
         cursor: pointer;
         transform: scale(1.3);
         box-shadow: 1px 1px 1px 1px rgba(211, 211, 211, 0.705); }
+      #home-container #user-friends #friends .chat-button {
+        background-color: #39596bed;
+        border-radius: 20%;
+        padding: 5px; }
+        #home-container #user-friends #friends .chat-button:hover {
+          color: grey !important; }
     #home-container #user-friends #users {
       width: 90%;
       height: 50%;

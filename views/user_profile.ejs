@@ -1,8 +1,8 @@
 <!-- variable part-->
 <!-- add individual style to each page -->
 
-<link rel="stylesheet" href="/css/user_profile.css" type="text/css" />
 
+<link rel="stylesheet" href="/css/user_profile.css" type="text/css" />
 <div id="user-profile-container">
   <!-- <div id="img-container"><img src="<%= user.avatar %>" alt="<%= user.name %>" width="100" id="blah" /></div> -->
 
@@ -59,6 +59,14 @@
       <input type="submit" value="Change Password" class="subs" />
       
     </form>
+
+    
+
+  </div>
+  <div id="posts-list-container">
+    <ul>
+      <% for(post of posts){ %> <%- include('_post') -%> <%}%>
+    </ul>
   </div>
   <%}else{%>
   <!-- else show only  only the profile info -->
@@ -66,9 +74,11 @@
     <img src="<%= profile_user.avatar %>" alt="<%= profile_user.name %>" width="100" id="blah" />
   </div>
   <div id="other-user-container">
-    <p>About::&nbsp;<%= profile_user.about %></p>
-    <p>Email::&nbsp;<%= profile_user.email %></p>
-    <p>Name::&nbsp;<%= profile_user.name %></p>
+    <div id="personal-info"><p>About::&nbsp;<%= profile_user.about %></p><br>
+      <p>Email::&nbsp;<%= profile_user.email %></p><br>
+      <p>Name::&nbsp;<%= profile_user.name %></p><br>
+    </div>
+    
 
     <% let i=0 %> <% for(f of user.friendships){ %> <% for(k of profile_user.friendships){ %> <%
     if(JSON.stringify(f._id) == JSON.stringify(k._id)){%> <% i=1 %> <%}%> <%}%> <%}%>
@@ -88,6 +98,16 @@
       >Unfriend</a
     >
     <%}%>
+
+    
+    <div id="posts-list-container">
+      <ul>
+        <% for(post of posts){ %> <%- include('_post') -%> <%}%>
+      </ul>
+    </div>
+
+
+
   </div>
 </div>
 
@@ -100,3 +120,17 @@
 <%}%>
 
 <script src="/js/file_upload.js"></script>
+
+
+
+<script src="/js/home_post_comments.js"></script>
+<script src="/js/home_posts.js"></script>
+<script src="/js/home_like.js"></script>
+
+<!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
+<script>
+  $('.toggle-like-button').each(function () {
+    let self = this;
+    let toggleLike = new ToggleLike(self);
+  });
+</script>

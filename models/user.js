@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: `${AVATAR_PATH}/default.jpeg`,
+      default: `uploads/def.jpg`,
     },
     friendships: [
       {

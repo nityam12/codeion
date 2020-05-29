@@ -6,8 +6,12 @@ const passport = require('passport');
 
 const usersController = require('../controllers/users_controller');
 
+const ChatController = require('../controllers/chat_controller');
+
 router.get('/profile/:id', passport.checkAuthentication, usersController.profile);
 // eslint-disable-next-line prettier/prettier
+router.post('/profile/chat/:name/:email/:chatroom',passport.checkAuthentication, ChatController.startchat);
+
 router.post(
   '/update/:id',
   passport.checkAuthentication,

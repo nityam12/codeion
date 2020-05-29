@@ -25,6 +25,8 @@
   </section>
 
   <section id="feed-posts">
+    <%- include('_carousel') -%>
+
     <h4>Posts</h4>
     <!-- locals is an object of res use locals.user instead of user -->
     <% if(locals.user){%>
@@ -64,11 +66,19 @@
         <%if(locals.user.id == f.from_user.id){%>
 
         <!-- <%= f.to_user.name%> -->
+        <!-- new ChatEngine('user-chat-box', '<%= locals.user.email%>','<%= locals.user.name%>',privateroom); -->
         <a href="/users/profile/<%= f.to_user.id %>"><%= f.to_user.name %></a>
+        <a class="chat-button" href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/privateroom"
+          >Chat</a
+        >
         <%}else{%>
 
         <!-- <%= f.from_user.name%> -->
-        <a href="/users/profile/<%= f.from_user.id %>"><%= f.from_user.name %></a>
+        <!-- new ChatEngine('user-chat-box', '<%= locals.user.email%>','<%= locals.user.name%>',privateroom); -->
+        <a href="/users/profile/<%= f.from_user.id %>"><%= f.from_user.name %></a>&ensp;&ensp;
+        <a class="chat-button" href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/privateroom"
+          >Chat</a
+        >
         <%}%>
       </p>
       <%}%> <%}%>
@@ -89,9 +99,11 @@
 </div>
 
 <!-- importing this script for creating the comments -->
+<script src="/js/chat_helper.js"></script>
 <script src="/js/home_post_comments.js"></script>
 <script src="/js/home_posts.js"></script>
 <script src="/js/home_like.js"></script>
+
 
 <!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
 <script>
@@ -99,13 +111,12 @@
     let self = this;
     let toggleLike = new ToggleLike(self);
   });
+  $('.chat-button').each(function () {
+    let self = this;
+    let chats = new Chatter(self);
+  });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script src="/js/chat_engine.js"></script>
 
-<%if(locals.user){%>
-<script>
-  new ChatEngine('user-chat-box', '<%= locals.user.email%>');
-</script>
-
-<%}%>
+<%if(locals.user){%> <%}%>
