@@ -39,8 +39,8 @@ module.exports.resizeUserPhoto = async (req, res, next) => {
   // console.log(req.files);
 
   try {
-    console.log(req.body);
-    console.log(req.files);
+    // console.log(req.body);
+    // console.log(req.files);
     if (!req.files.images) return next();
     // req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
     // const

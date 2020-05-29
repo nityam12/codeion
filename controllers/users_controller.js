@@ -247,7 +247,7 @@ module.exports.create = async function (req, res) {
           return;
         }
 
-        console.log('job enqued', job.id);
+        // console.log('job enqued', job.id);
       });
 
     req.flash('success', 'successfully account created');
@@ -336,7 +336,7 @@ module.exports.resetPassword = async function (req, res, next) {
   try {
     const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
-    console.log(req.params.token, hashedToken);
+    // console.log(req.params.token, hashedToken);
 
     const user = await User.findOne({
       passwordResetToken: hashedToken,
@@ -392,7 +392,7 @@ module.exports.resetPassword2 = async function (req, res, next) {
     // .update(req.params.token)
     // .digest('hex');
 
-    console.log(req.params.token);
+    // console.log(req.params.token);
 
     const user = await User.findOne({
       passwordResetToken: req.params.token,
@@ -429,7 +429,7 @@ module.exports.verifyAccount = async function (req, res) {
   try {
     const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
-    console.log(req.params.token, hashedToken);
+    // console.log(req.params.token, hashedToken);
 
     const user = await User.findOne({
       acountVerifyToken: hashedToken,

@@ -23,7 +23,7 @@ module.exports.makefriend = async function (req, res) {
       to_user: user_from_id,
     });
 
-    console.log(friend2, friend1);
+    // console.log(friend2, friend1);
 
     if (friend1 || friend2) {
       if (friend1) {

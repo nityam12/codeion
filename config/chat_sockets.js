@@ -1,5 +1,6 @@
 const Filter = require('bad-words');
 const { generateMessage, generateLocationMessage } = require('../assets/js/message.js');
+const Room = require('../models/room');
 // //for backend
 // //for receivin connection
 // //first event-----connection
@@ -50,6 +51,8 @@ module.exports.chatSockets = function (socketServer) {
     });
 
     socket.on('join_room', function (data) {
+
+      
       console.log('joining request rec.', data);
 
       socket.emit('receive_message', generateMessage('Welcome!', data.user_email, data.user_name, data.chatroom));
@@ -72,7 +75,10 @@ module.exports.chatSockets = function (socketServer) {
       if (filter.isProfane(data.message)) {
         return callback('profanity is not allowed!');
       }
-      io.in(data.chatroom).emit('receive_message', generateMessage(data.message, data.user_email,data.user_name, data.chatroom));
+      io.in(data.chatroom).emit(
+        'receive_message',
+        generateMessage(data.message, data.user_email, data.user_name, data.chatroom)
+      );
       callback();
     });
 

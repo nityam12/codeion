@@ -10,7 +10,7 @@ const ChatController = require('../controllers/chat_controller');
 
 router.get('/profile/:id', passport.checkAuthentication, usersController.profile);
 // eslint-disable-next-line prettier/prettier
-router.post('/profile/chat/:name/:email/:chatroom',passport.checkAuthentication, ChatController.startchat);
+router.post('/profile/chat/:name/:email/:chatroom', passport.checkAuthentication, ChatController.startchat);
 
 router.post(
   '/update/:id',
@@ -23,6 +23,9 @@ router.post('/update/password/:id', passport.checkAuthentication, usersControlle
 
 router.get('/sign-up', usersController.signUp);
 router.get('/sign-in', usersController.signIn);
+
+router.get('/group-chat', passport.checkAuthentication, ChatController.groupchat);
+router.get('/groupchat/room', passport.checkAuthentication, ChatController.groupchatroom);
 
 router.get('/forgot', usersController.forgotpage);
 router.post('/forgotPassword', usersController.forgotPassword);

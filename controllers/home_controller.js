@@ -88,7 +88,7 @@ module.exports.home = async function (req, res) {
       });
     }
 
-    console.log(personal);
+    // console.log(personal);
 
     //   let user= await User.findById(locals.user._id)
 
