@@ -3,6 +3,8 @@ module.exports.startchat = function (req, res) {
     return res.status(200).json({
       name: req.params.name,
       email: req.params.email,
+      id1: req.params.id1,
+      id2: req.params.id2,
       chatroom: req.params.chatroom,
     });
   }
@@ -27,12 +29,7 @@ module.exports.groupchatroom = function (req, res) {
   // send(username, room);
   // console.log(username, room);
 
-  res.render('chat_box_master_room', {
+  return res.render('chat_box_master_room', {
     title: 'Chat App',
   });
-
-  return {
-    username,
-    room,
-  };
 };

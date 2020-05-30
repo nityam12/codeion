@@ -68,7 +68,7 @@
         <!-- <%= f.to_user.name%> -->
         <!-- new ChatEngine('user-chat-box', '<%= locals.user.email%>','<%= locals.user.name%>',privateroom); -->
         <a href="/users/profile/<%= f.to_user.id %>"><%= f.to_user.name %></a>
-        <a class="chat-button" href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/privateroom"
+        <a class="chat-button" href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/<%= locals.user._id %>/<%= f.to_user._id %>/<%= locals.user._id %>-<%= f.to_user._id %>"
           >Chat</a
         >
         <%}else{%>
@@ -76,7 +76,7 @@
         <!-- <%= f.from_user.name%> -->
         <!-- new ChatEngine('user-chat-box', '<%= locals.user.email%>','<%= locals.user.name%>',privateroom); -->
         <a href="/users/profile/<%= f.from_user.id %>"><%= f.from_user.name %></a>&ensp;&ensp;
-        <a class="chat-button" href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/privateroom"
+        <a class="chat-button" href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/<%= locals.user._id %>/<%= f.from_user._id %>/<%= locals.user._id %>-<%= f.from_user._id %>"
           >Chat</a
         >
         <%}%>

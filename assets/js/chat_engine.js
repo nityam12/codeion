@@ -24,11 +24,17 @@ const autoscroll = (chatBoxId) => {
 };
 
 class ChatEngine {
-  constructor(chatBoxId, userEmail, userName, chatroom) {
+  constructor(chatBoxId, userEmail, userName, id1, id2, chatroom) {
     this.chatBox = $(`#${chatBoxId}`);
     this.userEmail = userEmail;
     this.userName = userName;
+    this.id1 = id1;
+    this.id2 = id2;
     this.socket = io.connect('http://localhost:5000');
+    // this.socket = io({
+    //   connect: 'http://localhost:5000',
+    //   transports: ['websocket'],
+    // });
     this.chatBoxId = chatBoxId;
     this.chatroom = chatroom;
     if (this.userEmail) {
@@ -46,6 +52,8 @@ class ChatEngine {
         user_email: self.userEmail,
         chatroom: self.chatroom,
         user_name: self.userName,
+        id1: self.id1,
+        id2: self.id2,
       });
 
       self.socket.on('user_joined', function (data) {
@@ -84,40 +92,49 @@ class ChatEngine {
       }
     });
 
-    self.socket.on('receive_message', function (data) {
-      console.log('message received', data.text);
+    self.socket.on(
+      'receive_message',
+      function (data) {
+        console.log('message received', data.text);
 
-      let newMessage = $('<li>');
+        let newMessage = $('<li>');
 
-      let messageType = 'other-message';
+        let messageType = 'other-message';
 
-      if (data.user_email == self.userEmail) {
-        messageType = 'self-message';
+        if (data.user_email == self.userEmail) {
+          messageType = 'self-message';
+        }
+
+        newMessage.append(
+          $('<span>', {
+            html: data.text,
+          })
+        );
+
+        newMessage.prepend(
+          $('<sup>', {
+            html: data.user_name,
+          })
+        );
+
+        newMessage.append(
+          $('<sub>', {
+            html: moment(data.createdAt).format('h:mm a'),
+          })
+        );
+
+        newMessage.addClass(messageType);
+
+        $('#chat-messages-list').append(newMessage);
+        autoscroll(self.chatBoxId);
+      },
+      (error) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log(' Message received!');
       }
-
-      newMessage.append(
-        $('<span>', {
-          html: data.text,
-        })
-      );
-
-      newMessage.prepend(
-        $('<sup>', {
-          html: data.user_name,
-        })
-      );
-
-      newMessage.append(
-        $('<sub>', {
-          html: moment(data.createdAt).format('h:mm a'),
-        })
-      );
-
-      newMessage.addClass(messageType);
-
-      $('#chat-messages-list').append(newMessage);
-      autoscroll(self.chatBoxId);
-    });
+    );
 
     $('#share-location').click(function () {
       const psself = $(this);

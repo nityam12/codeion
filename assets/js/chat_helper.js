@@ -1,5 +1,3 @@
-
-
 class Chatter {
   constructor(chatElement) {
     this.chats = chatElement;
@@ -17,10 +15,9 @@ class Chatter {
         url: $(self).attr('href'),
       })
         .done(function (data) {
+          $('#user-chat-box').css('display', 'block');
 
-            $('#user-chat-box').css('display', 'block');
-   
-          new ChatEngine('user-chat-box', data.email, data.name, data.chatroom);
+          new ChatEngine('user-chat-box', data.email, data.name, data.id1, data.id2, data.chatroom);
           // new Noty({
           //     theme: 'relax',
           //     text: "liked",

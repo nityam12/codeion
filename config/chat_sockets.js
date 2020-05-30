@@ -1,6 +1,7 @@
 const Filter = require('bad-words');
 const { generateMessage, generateLocationMessage } = require('../assets/js/message.js');
 const Room = require('../models/room');
+const User = require('../models/user');
 // //for backend
 // //for receivin connection
 // //first event-----connection
@@ -38,60 +39,138 @@ module.exports.chatSockets = function (socketServer) {
   let io = require('socket.io')(socketServer);
 
   io.sockets.on('connection', function (socket) {
-    console.log('new connection received', socket.id);
+    // console.log('new connection received', socket.id);
 
     socket.on('disconnect', function () {
-      console.log('socket disconnected!');
+      console.log('socket disconnected!', socket.id);
+
       // socket.broadcast
       //   .to(data.chatroom)
       //   .emit(
       //     'receive_message',
       //     generateMessage(`${data.user_name} has left`, data.user_email, data.user_Name, data.chatroom)
-      //   );
+
+      //
     });
 
-    socket.on('join_room', function (data) {
+    socket.on('join_room', async function (data) {
+      try {
+        let correctroom;
+        const secondroom = data.chatroom.split('-');
+        const bonusroom = secondroom[1] + '-' + secondroom[0];
+        console.log(data.chatroom);
+        console.log(bonusroom);
+        const oldroom = await Room.findOne({ name: data.chatroom });
+        const oldroom2 = await Room.findOne({ name: bonusroom });
+        if (!oldroom && !oldroom2) {
+          const newroom = await Room.create({
+            name: data.chatroom,
+          });
+          const user = await User.findById(data.id1);
+          newroom.users.push(user);
+          newroom.save();
+          correctroom = newroom;
+        } else {
+          const user = await User.findById(data.id1);
+          // console.log(user._id);
+          let index;
+          if (oldroom) {
+            index = await oldroom.users.indexOf(user._id);
+            // console.log(index);
+            correctroom = oldroom;
+          } else if (oldroom2) {
+            index = await oldroom2.users.indexOf(user._id);
+            // console.log(index);
+            correctroom = oldroom2;
+          }
+          if (index != -1) {
+            console.log('already in room');
+            await socket.join(correctroom.name);
+            return;
+          } else {
+            correctroom.users.push(user);
+            correctroom.save();
+          }
+        }
 
-      
-      console.log('joining request rec.', data);
-
-      socket.emit('receive_message', generateMessage('Welcome!', data.user_email, data.user_name, data.chatroom));
-      socket.join(data.chatroom); //joining user to chat room
-
-      socket.broadcast
-        .to(data.chatroom)
-        .emit(
+        console.log('joining request rec.', data);
+        console.log(correctroom.name);
+        await socket.emit(
           'receive_message',
-          generateMessage(`${data.user_name} has joined`, data.user_email, data.user_name, data.chatroom)
+          generateMessage('Welcome!', data.user_email, data.user_name, correctroom.name)
         );
-      // io.in(data.chatroom).emit('user_joined', data);//this emit to all in room
-      //socket.broadcast.emit() alternative
+
+        await socket.join(correctroom.name); //joining user to chat room
+
+        await socket.broadcast
+          .to(correctroom.name)
+          .emit(
+            'receive_message',
+            generateMessage(`${data.user_name} has joined`, data.user_email, data.user_name, correctroom.name)
+          );
+        // io.in(data.chatroom).emit('user_joined', data);//this emit to all in room
+        //socket.broadcast.emit() alternative
+      } catch (err) {
+        console.log(err);
+      }
     });
 
     // CHANGE :: detect send_message and broadcast to everyone in the room
-    socket.on('send_message', function (data, callback) {
-      const filter = new Filter();
+    socket.on('send_message', async function (data, callback) {
+      try {
+        const filter = new Filter();
+        // console.log('send');
+        if (filter.isProfane(data.message)) {
+          return callback('profanity is not allowed!');
+        }
 
-      if (filter.isProfane(data.message)) {
-        return callback('profanity is not allowed!');
+        let correctroom;
+        const secondroom = data.chatroom.split('-');
+        const bonusroom = secondroom[1] + '-' + secondroom[0];
+        const room = await Room.findOne({ name: data.chatroom });
+        const room2 = await Room.findOne({ name: bonusroom });
+        if (room) {
+          correctroom = room;
+        } else {
+          correctroom = room2;
+        }
+
+        console.log(correctroom);
+        await io
+          .in(correctroom.name)
+          .emit('receive_message', generateMessage(data.message, data.user_email, data.user_name, correctroom.name));
+        callback();
+      } catch (err) {
+        console.log(err);
       }
-      io.in(data.chatroom).emit(
-        'receive_message',
-        generateMessage(data.message, data.user_email, data.user_name, data.chatroom)
-      );
-      callback();
     });
 
-    socket.on('sendlocation', function (coords, callback) {
-      io.in(coords.chatroom).emit(
-        'receive_location',
-        generateLocationMessage(
-          `https://google.com/maps?q=${coords.latitude},${coords.longitude} `,
-          coords.userEmail,
-          coords.chatroom
-        )
-      );
-      callback();
+    socket.on('sendlocation', async function (coords, callback) {
+      try {
+        let correctroom;
+        const secondroom = coords.chatroom.split('-');
+        const bonusroom = secondroom[1] + '-' + secondroom[0];
+        const room = await Room.findOne({ name: coords.chatroom });
+        const room2 = await Room.findOne({ name: bonusroom });
+        if (room) {
+          correctroom = room;
+        } else {
+          correctroom = room2;
+        }
+        await io
+          .in(correctroom.name)
+          .emit(
+            'receive_location',
+            generateLocationMessage(
+              `https://google.com/maps?q=${coords.latitude},${coords.longitude} `,
+              coords.userEmail,
+              correctroom.name
+            )
+          );
+        callback();
+      } catch (err) {
+        console.log(err);
+      }
     });
   });
 };

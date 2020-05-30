@@ -45,11 +45,11 @@ const customMware = require('./config/middleware');
 
 // setup the chat server to be used with socket.io
 const chatServer = require('http').Server(app); //express app http inbuilt module
-const chatServer2 = require('http').Server(app);
+// const chatServer2 = require('http').Server(app);
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
-const chatSocketss = require('./config/group_chat_socket').chatSocketss(chatServer2);
+// const chatSocketss = require('./config/group_chat_socket').chatSocketss(chatServer2);
 chatServer.listen(5000);
-chatServer2.listen(3000);
+// chatServer2.listen(3000);
 console.log('chat server is listening on port 5000');
 
 //global middleware
