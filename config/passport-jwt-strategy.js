@@ -6,9 +6,11 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 const User = require('../models/user');
 
+const env = require('./environment');
+
 const opts = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'codeial', //this  is encryption key -specifically here decryption key
+  secretOrKey: env.jwt_secret, //this  is encryption key -specifically here decryption key
 };
 
 passport.use(
@@ -23,7 +25,7 @@ passport.use(
         return done(null, user);
       } else {
         return done(null, false);
-           //false means user not found
+        //false means user not found
       }
     });
   })

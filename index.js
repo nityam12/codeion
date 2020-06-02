@@ -14,6 +14,13 @@ npm install->imp all lib are installed from package .json
 */
 
 const express = require('express'); //requiring
+
+const env = require('./config/environment');
+
+const logger = require('morgan');
+
+const rfs = require('rotating-file-stream');
+
 const cookieParser = require('cookie-parser');
 
 const rateLimit = require('express-rate-limit');
@@ -24,6 +31,8 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 
 const app = express(); //firing express server
+require('./config/view-helpers')(app);
+require('./config/view-helpers2')(app);
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
@@ -66,16 +75,21 @@ const limiter = rateLimit({
 
 app.use('/users', limiter);
 
+const path = require('path');
+
 //must be before express server is fired
-app.use(
-  sassMiddleware({
-    src: './assets/SCSS',
-    dest: './assets/css',
-    debug: true, //display errors in terminal
-    outputStyle: 'extended',
-    prefix: '/css',
-  })
-);
+
+if (env.name == 'development') {
+  app.use(
+    sassMiddleware({
+      src: path.join(__dirname, env.asset_path, 'scss'),
+      dest: path.join(__dirname, env.asset_path, 'css'),
+      debug: true, //display errors in terminal
+      outputStyle: 'extended',
+      prefix: '/css',
+    })
+  );
+  }
 
 //parser middleware
 //Body parser,reading data from body into req.body
@@ -100,10 +114,16 @@ app.use(
 //cookie parser middleware
 app.use(cookieParser());
 
-app.use(express.static('./assets')); //for including static files
+app.use(express.static(path.join('.', env.asset_path))); //for including static files
 
 //make the upload file available to browser
 app.use('/uploads', express.static(__dirname + '/uploads'));
+
+// app.use(logger(env.morgan.mode, env.morgan.options));
+app.use(logger(env.morgan.mode, env.morgan.options));
+// app.use(logger('combined',{
+// stream:env.stream
+// }));
 
 app.use(expressLayouts); //must be before routes  before rendering
 
@@ -123,7 +143,7 @@ app.use(
   session({
     name: 'codeial', //name for cookie
     //to change secret before deployment
-    secret: 'blahsomething', //key to encode & decode
+    secret: env.session_cookie_key, //key to encode & decode
     saveUninitialized: false, //no need to save uninitialized login info
     resave: false, //no need to re-save data
     cookie: {

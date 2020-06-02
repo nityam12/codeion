@@ -2,6 +2,7 @@ const Filter = require('bad-words');
 const { generateMessage, generateLocationMessage } = require('../assets/js/message.js');
 const Room = require('../models/room');
 const User = require('../models/user');
+const Chat = require('../models/chat');
 // //for backend
 // //for receivin connection
 // //first event-----connection
@@ -58,17 +59,17 @@ module.exports.chatSockets = function (socketServer) {
         let correctroom;
         const secondroom = data.chatroom.split('-');
         const bonusroom = secondroom[1] + '-' + secondroom[0];
-        console.log(data.chatroom);
-        console.log(bonusroom);
+        // console.log(data.chatroom);
+        // console.log(bonusroom);
         const oldroom = await Room.findOne({ name: data.chatroom });
         const oldroom2 = await Room.findOne({ name: bonusroom });
         if (!oldroom && !oldroom2) {
-          const newroom = await Room.create({
+          let newroom = await Room.create({
             name: data.chatroom,
           });
           const user = await User.findById(data.id1);
           newroom.users.push(user);
-          newroom.save();
+          await newroom.save({ validateBeforeSave: false });
           correctroom = newroom;
         } else {
           const user = await User.findById(data.id1);
@@ -84,7 +85,7 @@ module.exports.chatSockets = function (socketServer) {
             correctroom = oldroom2;
           }
           if (index != -1) {
-            console.log('already in room');
+            // console.log('already in room');
             await socket.join(correctroom.name);
             return;
           } else {
@@ -95,12 +96,30 @@ module.exports.chatSockets = function (socketServer) {
 
         console.log('joining request rec.', data);
         console.log(correctroom.name);
+        // const usert = await User.findOne({ email: data.user_email });
+        // const chat = await Chat.create({
+        //   message: 'Welcome',
+        //   sender: usert,
+        //   room: correctroom,
+        // });
+
+        // correctroom.meassages.push(chat);
+        // correctroom.save();
+
         await socket.emit(
           'receive_message',
           generateMessage('Welcome!', data.user_email, data.user_name, correctroom.name)
         );
 
         await socket.join(correctroom.name); //joining user to chat room
+
+        // const chat2 = await Chat.create({
+        //   message: `${data.user_name} has joined`,
+        //   sender: usert,
+        //   room: correctroom,
+        // });
+        // correctroom.meassages.push(chat2);
+        // correctroom.save();
 
         await socket.broadcast
           .to(correctroom.name)
@@ -135,7 +154,17 @@ module.exports.chatSockets = function (socketServer) {
           correctroom = room2;
         }
 
-        console.log(correctroom);
+        const user = await User.findOne({ email: data.user_email });
+        let chat = await Chat.create({
+          message: data.message,
+          sender: user,
+          room: correctroom,
+        });
+        correctroom.messages.push(chat);
+        await correctroom.save({ validateBeforeSave: false });
+        chat = await chat.populate('sender', 'name email').populate('room', 'messages users').execPopulate();
+        // console.log(chat);
+        // console.log(correctroom);
         await io
           .in(correctroom.name)
           .emit('receive_message', generateMessage(data.message, data.user_email, data.user_name, correctroom.name));

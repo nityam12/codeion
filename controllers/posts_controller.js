@@ -58,7 +58,7 @@ module.exports.resizeUserPhoto = async (req, res, next) => {
 
           .quality(95)
 
-          .write(`assets/images/uploads/user_post_img/${filename}`);
+          .write(`uploads/users/user_post_img/${filename}`);
 
         req.body.images.push(filename);
       })
@@ -135,8 +135,8 @@ module.exports.destroy = async function (req, res) {
       await Like.deleteMany({ _id: { $in: post.Comments } });
 
       post.images.forEach(element => {
-        if (fs.existsSync(path.join(__dirname, '../assets/images/uploads/user_post_img/', element))) {
-          fs.unlinkSync(path.join(__dirname, '../assets/images/uploads/user_post_img/', element), function (err) {
+        if (fs.existsSync(path.join(__dirname, '../uploads/users/user_post_img/', element))) {
+          fs.unlinkSync(path.join(__dirname, '../uploads/users/user_post_img/', element), function (err) {
             if (err) throw err;
           });
         }

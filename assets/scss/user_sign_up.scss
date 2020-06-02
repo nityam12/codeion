@@ -1,13 +1,12 @@
 body,article {
-	min-height: 60% !important;
+	min-height: 100% !important;
 	display:block !important;
 	
 	
 }
-
 main{
 	
-        flex-shrink: 0;
+	flex-shrink: 0;
 	margin-bottom:-11px !important;
 	padding:0;
 	background:url("/images/aa.jpg");
@@ -15,7 +14,7 @@ main{
     
     min-height:150% !important;
     height:80% !important;
-    background-position:center;
+    background-position: center;
     background-repeat:repeat;
     overflow: hidden;
 	padding:0 !important;
@@ -26,7 +25,6 @@ main{
 	width:466px;
 	margin:0px auto;
 	margin-top:150px;
-
 	a{
 		text-decoration: none;
 		color:#000;
@@ -37,7 +35,6 @@ main{
 			color:rgba(219, 91, 6, 0.979);
 		}
 	}
-
 	
 }
 
@@ -57,7 +54,7 @@ main{
 }
 #login_btn
 {
-	margin-left:-0.4;
+	margin-left:-1px;
 	background:#f2f2f2;
 	color:#000;
 	border-top:6px solid #4caf50;
@@ -113,7 +110,7 @@ main{
 }
 #signup{
 	
-	display:none;
+	display:inline-block;
 }
 .error{
 
@@ -136,9 +133,4 @@ main{
 	position:absolute;
 	top:31px;
 	left:370px;
-}
-
-#forgot{
-	color:white!important;
-	
 }

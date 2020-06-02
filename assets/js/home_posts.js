@@ -40,7 +40,7 @@
           $(newDiv).attr('id','grand-image');
           for (const i of imj) {
             $(newDiv).append(
-              '<p class="img-container"><img class="post-img" src="/images/uploads/user_post_img/' + i + '"></p>'
+              '<p class="img-container"><img class="post-img" src="/uploads/users/user_post_img/' + i + '"></p>'
             );
           }
 

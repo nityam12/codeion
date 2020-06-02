@@ -9,6 +9,12 @@ const RoomSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    messages: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Chat',
+      },
+    ],
   },
   {
     timestamps: true,

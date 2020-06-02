@@ -1,12 +1,37 @@
-module.exports.startchat = function (req, res) {
-  if (req.xhr) {
-    return res.status(200).json({
-      name: req.params.name,
-      email: req.params.email,
-      id1: req.params.id1,
-      id2: req.params.id2,
-      chatroom: req.params.chatroom,
-    });
+const Room = require('../models/room');
+const Chat = require('../models/chat');
+
+module.exports.startchat = async function (req, res) {
+  try {
+    let room = await Room.findOne({ name: req.params.chatroom });
+    let chat = await Chat.find({ room: room }).populate('sender', 'name email').populate('room');
+    //   path: 'messages',
+    //   populate: [
+    //     {
+    //       path: 'sender',
+    //     },
+    //     {
+    //       path: 'room',
+    //     },
+    //   ],
+    // });
+    
+  
+
+    if (req.xhr) {
+      return res.status(200).json({
+        name: req.params.name,
+        email: req.params.email,
+        id1: req.params.id1,
+        id2: req.params.id2,
+        chatroom: req.params.chatroom,
+      });
+    }
+
+    
+
+  } catch (err) {
+    console.log(err);
   }
 };
 

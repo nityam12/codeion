@@ -68,7 +68,9 @@
         <!-- <%= f.to_user.name%> -->
         <!-- new ChatEngine('user-chat-box', '<%= locals.user.email%>','<%= locals.user.name%>',privateroom); -->
         <a href="/users/profile/<%= f.to_user.id %>"><%= f.to_user.name %></a>
-        <a class="chat-button" href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/<%= locals.user._id %>/<%= f.to_user._id %>/<%= locals.user._id %>-<%= f.to_user._id %>"
+        <a
+          class="chat-button"
+          href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/<%= locals.user._id %>/<%= f.to_user._id %>/<%= locals.user._id %>-<%= f.to_user._id %>"
           >Chat</a
         >
         <%}else{%>
@@ -76,7 +78,9 @@
         <!-- <%= f.from_user.name%> -->
         <!-- new ChatEngine('user-chat-box', '<%= locals.user.email%>','<%= locals.user.name%>',privateroom); -->
         <a href="/users/profile/<%= f.from_user.id %>"><%= f.from_user.name %></a>&ensp;&ensp;
-        <a class="chat-button" href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/<%= locals.user._id %>/<%= f.from_user._id %>/<%= locals.user._id %>-<%= f.from_user._id %>"
+        <a
+          class="chat-button"
+          href="/users/profile/chat/<%= locals.user.name %>/<%= locals.user.email %>/<%= locals.user._id %>/<%= f.from_user._id %>/<%= locals.user._id %>-<%= f.from_user._id %>"
           >Chat</a
         >
         <%}%>
@@ -104,7 +108,6 @@
 <script src="/js/home_posts.js"></script>
 <script src="/js/home_like.js"></script>
 
-
 <!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
 <script>
   $('.toggle-like-button').each(function () {
@@ -119,4 +122,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script src="/js/chat_engine.js"></script>
 
-<%if(locals.user){%> <%}%>
+<!-- <%if(locals.user){%> <%}%> -->

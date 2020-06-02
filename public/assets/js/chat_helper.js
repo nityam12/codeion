@@ -1,0 +1,1 @@
+class Chatter{constructor(t){this.chats=t,this.activate()}activate(){$(this.chats).click((function(t){t.preventDefault();$.ajax({type:"POST",url:$(this).attr("href")}).done((function(t){$("#user-chat-box").css("display","block"),new ChatEngine("user-chat-box",t.email,t.name,t.id1,t.id2,t.chatroom)})).fail((function(t){console.log("error in completing the request")}))}))}}
