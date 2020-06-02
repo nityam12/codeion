@@ -23,8 +23,8 @@ const development = {
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'nityam1050@gmail.com', // generated ethereal user
-      pass: 'Nvidia1050', // generated ethereal password
+      user: 'nityam105@gmail.com', // generated ethereal user
+      pass: '325', // generated ethereal password
       //activate in gmail "less secure app" option
     },
   },
