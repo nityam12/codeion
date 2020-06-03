@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('http://54.83.172.113:3000');
 
 // Elements
 const $messageForm = document.querySelector('#message-form');

@@ -89,11 +89,11 @@ if (env.name == 'development') {
       prefix: '/css',
     })
   );
-  }
+}
 
 //parser middleware
 //Body parser,reading data from body into req.body
-app.use(express.urlencoded({ limit: '10kb' }));
+app.use(express.urlencoded({ limit: '10kb', extended: false }));
 
 //not used
 app.use(express.json({ limit: '10kb' }));
