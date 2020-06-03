@@ -1,1 +1,0 @@
-function readURL(e){if(e.files&&e.files[0]){let a=new FileReader;a.onload=function(e){$("#blah").attr("src",e.target.result)},a.readAsDataURL(e.files[0])}}$("#pro").change((function(){readURL(this)}));
