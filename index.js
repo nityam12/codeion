@@ -182,11 +182,11 @@ app.use(customMware.setFlash);
 //use express router using middleware must be after initialize
 app.use('/', require('./routes')); //must be after passport.initialize;
 
-let redis = require('redis');
-let url = require('url');
-let redisURL = url.parse(process.env.REDISCLOUD_URL);
-let client = redis.createClient(redisURL.port, redisURL.hostname, { no_ready_check: true });
-client.auth(redisURL.auth.split(':')[1]);
+// let redis = require('redis');
+// let url = require('url');
+// let redisURL = url.parse(process.env.REDISCLOUD_URL);
+// let client = redis.createClient(redisURL.port, redisURL.hostname, { no_ready_check: true });
+// client.auth(redisURL.auth.split(':')[1]);
 
 app.listen(port, function (err) {
   if (err) {
