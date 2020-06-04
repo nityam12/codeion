@@ -5,13 +5,13 @@ const env = require('./environment');
 
 const DB = env.DB.replace('<PASSWORD>', env.db_pass);
 
-process.on('uncaughtException', (err) => {
-  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+// process.on('uncaughtException', (err) => {
+//   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
 
-  console.log(err.name, err.message);
+//   console.log(err.name, err.message);
 
-  process.exit(1);
-});
+//   process.exit(1);
+// });
 
 mongoose
   .connect(DB, {
@@ -35,22 +35,22 @@ db.once('open', function () {
   console.log('connected to Database::MongoDB');
 });
 
-process.on('unhandledRejection', (err) => {
-  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+// process.on('unhandledRejection', (err) => {
+//   console.log('UNHANDLED REJECTION! 💥 Shutting down...');
 
-  console.log(err.name, err.message);
+//   console.log(err.name, err.message);
 
-  server.close(() => {
-    process.exit(1);
-  });
-});
+//   server.close(() => {
+//     process.exit(1);
+//   });
+// });
 
-process.on('SIGTERM', () => {
-  console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
+// process.on('SIGTERM', () => {
+//   console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
 
-  server.close(() => {
-    console.log('💥 Process terminated!');
-  });
-});
+//   server.close(() => {
+//     console.log('💥 Process terminated!');
+//   });
+// });
 
 module.exports = db;
