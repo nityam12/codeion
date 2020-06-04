@@ -182,6 +182,14 @@ app.use(customMware.setFlash);
 //use express router using middleware must be after initialize
 app.use('/', require('./routes')); //must be after passport.initialize;
 
+let redisClient;
+if (process.env.REDISCLOUD_URL) {
+  let redisURL = url.parse(process.env.REDISCLOUD_URL);
+  redisClient = redis.createClient(redisURL);
+} else {
+  redisClient = redis.createClient();
+}
+
 app.listen(port, function (err) {
   if (err) {
     console.log(`Error:${err}`); //interpolation
