@@ -31,7 +31,7 @@ class ChatEngine {
     this.id1 = id1;
     this.id2 = id2;
     // this.socket = io.connect('http://54.83.172.113:5000');
-    this.socket = io.connect('/');
+    this.socket = io.connect('https://hidden-everglades-85411.herokuapp.com:5000');
     // this.socket = io({
     //   connect: 'http://localhost:5000',
     //   transports: ['websocket'],
