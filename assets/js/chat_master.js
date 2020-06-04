@@ -1,4 +1,3 @@
-// const socket = io.connect('http://54.83.172.113:3000');
 const socket = io.connect('https://hidden-everglades-85411.herokuapp.com:3000');
 // Elements
 const $messageForm = document.querySelector('#message-form');
