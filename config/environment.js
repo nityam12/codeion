@@ -14,24 +14,27 @@ const accessLogStream = rfs.createStream('access.log', {
 
 const development = {
   name: 'development',
-  asset_path: '/assets',
-  session_cookie_key: 'blahsomething',
+  asset_path: '/ats',
+  session_cookie_key: 'blahsooomething',
   db: 'codeial_development',
+  db_pass: 'q',
+  DB: 'rites',
+  DB_LOCAL: 'y',
   smtp: {
     service: 'gmail',
     host: 'smtp.gmail.com',
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'nityam15@gmail.com', // generated ethereal user
-      pass: '325', // generated ethereal password
+      user: 'nityam1@gmail.com', // generated ethereal user
+      pass: '35', // generated ethereal password
       //activate in gmail "less secure app" option
     },
   },
-  google_client_id: '1016487882420-ll70392hhfsou7lp3hjbse0cubbk1h9a.apps.googleusercontent.com',
-  google_client_secret: 'jKVoVvSQFHUUMZhEesYHxymK',
-  google_call_back_url: 'http://localhost:8000/users/auth/google/callback',
-  jwt_secret: 'codeiial',
+  google_client_id: '10',
+  google_client_secret: 'jK',
+  google_call_back_url: 'htp',
+  jwt_secret: 'coal',
   morgan: {
     mode: 'dev',
     options: { stream: accessLogStream },
@@ -43,6 +46,9 @@ const production = {
   asset_path: process.env.CODEIAL_ASSET_PATH,
   session_cookie_key: process.env.CODEIAL_SESSION_COOKIE_KEY,
   db: process.env.CODEIAL_DB,
+  db_pass: process.env.CODEIAL_DB_PASS,
+  DB: process.env.CODEIAL_DB_ATLAS,
+  DB_LOCAL: process.env.CODEIAL_DB_LOCAL,
   smtp: {
     service: 'gmail',
     host: 'smtp.gmail.com',
