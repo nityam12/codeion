@@ -237,18 +237,18 @@ module.exports.create = async function (req, res) {
 
     const url = `${req.protocol}://${req.get('host')}/users/verify/${verifyToken}`;
 
-    let job = await queue
-      .create('loginemail', { url: url, email: req.body.email })
-      .priority('high')
-      .attempts(5)
-      .save(function (err) {
-        if (err) {
-          console.log('error in creating a queue', err);
-          return;
-        }
+    // let job = await queue
+    //   .create('loginemail', { url: url, email: req.body.email })
+    //   .priority('high')
+    //   .attempts(5)
+    //   .save(function (err) {
+    //     if (err) {
+    //       console.log('error in creating a queue', err);
+    //       return;
+    //     }
 
-        // console.log('job enqued', job.id);
-      });
+    //     // console.log('job enqued', job.id);
+    //   });
 
     req.flash('success', 'successfully account created');
     req.flash('success', 'verify your account from your email');
@@ -307,14 +307,14 @@ module.exports.forgotPassword = async function (req, res, next) {
 
     const resetURL = `${req.protocol}://${req.get('host')}/users/resetPassword/${resetToken}`;
 
-    let job = await queue.create('resetemail', { resetURL: resetURL, email: user.email }).save(function (err) {
-      if (err) {
-        console.log('error in creating a queue', err);
-        return;
-      }
+    // let job = await queue.create('resetemail', { resetURL: resetURL, email: user.email }).save(function (err) {
+    //   if (err) {
+    //     console.log('error in creating a queue', err);
+    //     return;
+    //   }
 
-      // console.log('job enqued', job.id);
-    });
+    //   // console.log('job enqued', job.id);
+    // });
 
     req.flash('success', 'Reset link sent to your email');
     return res.redirect('/users/sign-in');
