@@ -23,7 +23,7 @@ const development = {
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'nityam105@gmail.com', // generated ethereal user
+      user: 'nityam15@gmail.com', // generated ethereal user
       pass: '325', // generated ethereal password
       //activate in gmail "less secure app" option
     },
@@ -31,7 +31,7 @@ const development = {
   google_client_id: '1016487882420-ll70392hhfsou7lp3hjbse0cubbk1h9a.apps.googleusercontent.com',
   google_client_secret: 'jKVoVvSQFHUUMZhEesYHxymK',
   google_call_back_url: 'http://localhost:8000/users/auth/google/callback',
-  jwt_secret: 'codeial',
+  jwt_secret: 'codeiial',
   morgan: {
     mode: 'dev',
     options: { stream: accessLogStream },

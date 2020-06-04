@@ -52,7 +52,7 @@ module.exports.create = async function (req, res) {
           return;
         }
 
-        console.log('job enqued', job.id);
+        // console.log('job enqued', job.id);
       });
 
       if (req.xhr) {

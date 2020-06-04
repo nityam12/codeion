@@ -23,6 +23,8 @@ const rfs = require('rotating-file-stream');
 
 const cookieParser = require('cookie-parser');
 
+const compression = require('compression');
+
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 
@@ -59,16 +61,16 @@ const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 const chatSocketss = require('./config/group_chat_socket').chatSocketss(chatServer2);
 chatServer.listen(5000);
 chatServer2.listen(3000);
-console.log('chat server is listening on port 5000');
+// console.log('chat server is listening on port 5000');
 
 //global middleware
-
+app.use(compression()); //only for text & json
 //set security http headers
 app.use(helmet());
 
 //Limit requests from same ip address
 const limiter = rateLimit({
-  max: 200,
+  max: 250,
   windowMs: 60 * 60 * 1000,
   message: 'Too many request from this IP,please try again in an hour!',
 });
@@ -148,7 +150,7 @@ app.use(
     resave: false, //no need to re-save data
     cookie: {
       //cookie validity
-      maxAge: 1000 * 60 * 100, //in ms
+      maxAge: 2 * 24 * 60 * 60, //in ms
       //secure:true  necessary
       //httpOnly:true by default
     },
@@ -156,7 +158,8 @@ app.use(
       {
         //instance of mongo store
         mongooseConnection: db,
-        autoRemove: 'disabled',
+        autoRemove: 'native',
+        touchAfter: 24 * 3600,
       },
       function (
         err //callback fn to show err

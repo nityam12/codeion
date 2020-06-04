@@ -11,7 +11,7 @@ const $messages = document.querySelector('#messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 
 socket.on('message', (message) => {
-  console.log(message);
+  // console.log(message);
   const html = Mustache.render(messageTemplate, {
     message,
   });
@@ -34,7 +34,7 @@ $messageForm.addEventListener('submit', (e) => {
       return console.log(error);
     }
 
-    console.log('Message delivered!');
+    // console.log('Message delivered!');
   });
 });
 
@@ -54,7 +54,7 @@ $sendLocationButton.addEventListener('click', () => {
       },
       () => {
         $sendLocationButton.removeAttribute('disabled');
-        console.log('Location shared!');
+        // console.log('Location shared!');
       }
     );
   });

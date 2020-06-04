@@ -2,7 +2,7 @@ class FriendRequest {
   constructor(makefriendId) {
     // this.friendid=$('#friendlink');
     this.friendid = document.getElementById('friend-link');
-    console.log(this.friendid.text);
+    // console.log(this.friendid.text);
 
     this.connect_friend();
   }
@@ -21,7 +21,7 @@ class FriendRequest {
       }
 
       let url = this.getAttribute('href');
-      console.log(url);
+      // console.log(url);
       xhrRequest.open('POST', url, true);
 
       xhrRequest.send();
@@ -29,7 +29,7 @@ class FriendRequest {
       xhrRequest.onload = function () {
         let response = JSON.parse(xhrRequest.response);
         let friend_status = response.data.friend_status;
-        console.log(friend_status);
+        // console.log(friend_status);
         if (friend_status) {
           self.friendid.innerHTML = 'Unfriend';
         } else {

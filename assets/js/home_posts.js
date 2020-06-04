@@ -8,7 +8,7 @@
       // console.log(document.getElementById('images').files);
       const form = new FormData();
       form.append('content', document.getElementById('post-content').value);
-      $('#post-content').val("");
+      $('#post-content').val('');
       // form.append('images', document.getElementById('images').files[3]);
 
       if (parseInt(document.getElementById('images').files.length) > 3) {
@@ -32,22 +32,30 @@
         processData: false,
         contentType: false,
         success: function (data) {
-          
           const imj = data.data.post.images;
           // const uop = $(' #grand-image', newPost);
           const newDiv = document.createElement('div');
           const newDivs = document.createElement('div');
-          $(newDiv).attr('id','grand-image');
+          $(newDiv).attr('id', 'grand-image');
+          $(newDiv).css({
+            display: 'flex',
+            'align-items': 'center',
+            'justify-content': 'center',
+            'flex-wrap': 'wrap',
+          });
+
           for (const i of imj) {
             $(newDiv).append(
-              '<p class="img-container"><img class="post-img" src="/uploads/users/user_post_img/' + i + '"></p>'
+              '<p class="img-container style="width:48%;display:flex;align-items: center;justify-content:center;margin-right:12px;border:1px solid rgb(43, 0, 0);"><img class="post-img" style="height: 100%;width:100%;" src="/uploads/users/user_post_img/' +
+                i +
+                '"></p>'
             );
           }
 
           $(newDivs).append(newDiv);
           const newPost = newPostDom(data.data.post, newDivs);
-          console.log(newDiv);
-         
+          // console.log(newDiv);
+
           $('#posts-list-container>ul').prepend(newPost);
           deletePost($(' .delete-post-button', newPost));
 
@@ -63,7 +71,7 @@
             type: 'success',
             layout: 'topRight',
             timeout: 1500,
-          }).show(); 
+          }).show();
         },
         error: function (error) {
           console.log(error.responseText);
@@ -73,7 +81,7 @@
   };
 
   // method to create a post in DOM
-  let newPostDom = function (post,newDivs) {
+  let newPostDom = function (post, newDivs) {
     return $(`<li id="post-${post._id}">
                     <p>
                         ${post.content}

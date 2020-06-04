@@ -1,4 +1,4 @@
-console.log("dasda");
+
 
 let slideIndex = 1;
 showSlides(slideIndex);

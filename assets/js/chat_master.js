@@ -19,7 +19,7 @@ const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }
 
 // console.log(fgt.groupchatroom.username, fgt.groupchatroom.username);
 // const { username, room } = require('../../controllers/chat_controller');
-console.log(username, room);
+// console.log(username, room);
 
 const autoscroll = () => {
   // New message element
@@ -45,7 +45,7 @@ const autoscroll = () => {
 };
 
 socket.on('message', (message) => {
-  console.log(message);
+  // console.log(message);
   const html = Mustache.render(messageTemplate, {
     username: message.username,
     message: message.text,
@@ -56,7 +56,7 @@ socket.on('message', (message) => {
 });
 
 socket.on('locationMessage', (message) => {
-  console.log(message);
+  // console.log(message);
   const html = Mustache.render(locationMessageTemplate, {
     username: message.username,
     url: message.url,
@@ -90,7 +90,7 @@ $messageForm.addEventListener('submit', (e) => {
       return console.log(error);
     }
 
-    console.log('Message delivered!');
+    // console.log('Message delivered!');
   });
 });
 
@@ -110,7 +110,7 @@ $sendLocationButton.addEventListener('click', () => {
       },
       () => {
         $sendLocationButton.removeAttribute('disabled');
-        console.log('Location shared!');
+        // console.log('Location shared!');
       }
     );
   });

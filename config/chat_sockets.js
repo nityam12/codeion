@@ -43,7 +43,7 @@ module.exports.chatSockets = function (socketServer) {
     // console.log('new connection received', socket.id);
 
     socket.on('disconnect', function () {
-      console.log('socket disconnected!', socket.id);
+      // console.log('socket disconnected!', socket.id);
 
       // socket.broadcast
       //   .to(data.chatroom)
@@ -94,8 +94,8 @@ module.exports.chatSockets = function (socketServer) {
           }
         }
 
-        console.log('joining request rec.', data);
-        console.log(correctroom.name);
+        // console.log('joining request rec.', data);
+        // console.log(correctroom.name);
         // const usert = await User.findOne({ email: data.user_email });
         // const chat = await Chat.create({
         //   message: 'Welcome',

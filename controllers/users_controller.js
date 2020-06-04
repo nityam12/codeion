@@ -227,7 +227,7 @@ module.exports.create = async function (req, res) {
 
     if (!user) {
       req.flash('error', 'error in signing up');
-      console.log('error in creating user in signing up');
+      // console.log('error in creating user in signing up');
       return res.redirect('back');
     }
 
@@ -296,7 +296,7 @@ module.exports.forgotPassword = async function (req, res, next) {
 
     if (!user) {
       // return next(new AppError('there is no user with this email adddress.',404));
-      console.log('there is no user with this email adddress.');
+      // console.log('there is no user with this email adddress.');
       req.flash('error', 'there is no user with this email adddress.');
       return res.redirect('back');
     }
@@ -313,7 +313,7 @@ module.exports.forgotPassword = async function (req, res, next) {
         return;
       }
 
-      console.log('job enqued', job.id);
+      // console.log('job enqued', job.id);
     });
 
     req.flash('success', 'Reset link sent to your email');

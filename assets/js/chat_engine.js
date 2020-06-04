@@ -3,7 +3,7 @@ const autoscroll = (chatBoxId) => {
   const $messages = document.getElementById('chat-messages-list');
   const $newMessage = $messages.lastElementChild;
 
-  console.log($newMessage);
+  // console.log($newMessage);
   // Height of the new message
   const newMessageStyles = window.getComputedStyle($newMessage);
   const newMessageMargin = parseInt(newMessageStyles.marginBottom);
@@ -57,7 +57,7 @@ class ChatEngine {
       });
 
       self.socket.on('user_joined', function (data) {
-        console.log('a user joined!', data);
+        // console.log('a user joined!', data);
       });
     });
 
@@ -84,7 +84,7 @@ class ChatEngine {
               console.log(error);
             }
 
-            console.log(' Message delivered!');
+            // console.log(' Message delivered!');
           }
         );
       } else {
@@ -95,7 +95,7 @@ class ChatEngine {
     self.socket.on(
       'receive_message',
       function (data) {
-        console.log('message received', data.text);
+        // console.log('message received', data.text);
 
         let newMessage = $('<li>');
 
@@ -132,7 +132,7 @@ class ChatEngine {
         if (error) {
           console.log(error);
         }
-        console.log(' Message received!');
+        // console.log(' Message received!');
       }
     );
 
@@ -165,7 +165,7 @@ class ChatEngine {
             },
             () => {
               psself.attr('disabled', false);
-              console.log('Location shared');
+              // console.log('Location shared');
             }
           );
         });
@@ -181,7 +181,7 @@ class ChatEngine {
     });
 
     self.socket.on('receive_location', function (data) {
-      console.log('location received', data.message);
+      // console.log('location received', data.message);
 
       let newMessage = $('<li>');
 
