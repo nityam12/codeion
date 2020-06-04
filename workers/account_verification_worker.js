@@ -1,4 +1,4 @@
-const queue = require('../config/kue');
+// const queue = require('../config/kue');
 
 const AccountverLinkMailer = require('../mailers/user_account_auth_mailer');
 

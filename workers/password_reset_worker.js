@@ -1,4 +1,4 @@
-const queue=require('../config/kue');
+// const queue=require('../config/kue');
 
 const ResetLinkMailer=require('../mailers/reset_password_mailer');
 

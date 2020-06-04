@@ -1,4 +1,4 @@
-const queue = require('../config/kue');
+// const queue = require('../config/kue');
 
 const commentMailer = require('../mailers/comments_mailer');
 
