@@ -35,7 +35,7 @@ const hpp = require('hpp');
 const app = express(); //firing express server
 require('./config/view-helpers')(app);
 require('./config/view-helpers2')(app);
-const port = 8000;
+const port = process.env.PORT || 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 const validator = require('validator');
