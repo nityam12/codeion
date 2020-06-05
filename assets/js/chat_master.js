@@ -1,4 +1,4 @@
-const socket = io.connect('http://35.175.63.116:3000');
+const socket = io.connect('http://35.175.63.116:2000');
 // Elements
 const $messageForm = document.querySelector('#message-form');
 const $messageFormInput = $messageForm.querySelector('input');
