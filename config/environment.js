@@ -18,7 +18,7 @@ const development = {
   session_cookie_key: 'blahsooomething',
   db: 'codeial_development',
   db_pass: 'q',
-  DB: 'mongodb+srv://nityam:<PASSWORD>@cluster0-m1vsr.mongodb.net/devil?retryWrites=true&w=majority',
+  DB: 'mon',
   DB_LOCAL: 'y',
   smtp: {
     service: 'gmail',
