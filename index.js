@@ -145,8 +145,8 @@ app.use(
   session({
     name: 'codeial', //name for cookie
     //to change secret before deployment
-
-    secret: env.session_cookie_key, //key to encode & decode
+    secret: 'dadasd',
+    // secret: env.session_cookie_key, //key to encode & decode
     saveUninitialized: false, //no need to save uninitialized login info
     resave: false, //no need to re-save data
     cookie: {
