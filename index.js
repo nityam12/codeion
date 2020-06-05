@@ -35,7 +35,7 @@ const hpp = require('hpp');
 const app = express(); //firing express server
 require('./config/view-helpers')(app);
 require('./config/view-helpers2')(app);
-const port = process.env.PORT || 8000;
+const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 const validator = require('validator');
@@ -61,7 +61,7 @@ const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 const chatSocketss = require('./config/group_chat_socket').chatSocketss(chatServer2);
 chatServer.listen(5000);
 chatServer2.listen(3000);
-console.log('chat server is listening on port 5000');
+// console.log('chat server is listening on port 5000');
 
 //global middleware
 app.use(compression()); //only for text & json
