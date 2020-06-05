@@ -145,15 +145,15 @@ app.use(
   session({
     name: 'codeial', //name for cookie
     //to change secret before deployment
-    secret: 'dadasd',
-    // secret: env.session_cookie_key, //key to encode & decode
+    // secret: 'dadasd',
+    secret: env.session_cookie_key, //key to encode & decode
     saveUninitialized: false, //no need to save uninitialized login info
     resave: false, //no need to re-save data
     cookie: {
       //cookie validity
       maxAge: 2 * 24 * 60 * 60, //in ms
       // secure: true, //necessary
-      // httpOnly: true, // by default
+      httpOnly: true, // by default
     },
     store: new MongoStore( //using mongo store //session is permanentyly stored on server
       {
