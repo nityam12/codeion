@@ -320,9 +320,9 @@ module.exports.forgotPassword = async function (req, res, next) {
     return res.redirect('/users/sign-in');
   } catch (err) {
     console.log('Error', err);
-    user.PasswordResetToken = undefined;
-    user.PasswordResetExpires = undefined;
-    await user.save({ validateBeforeSave: false });
+    // user.PasswordResetToken = undefined;
+    // user.PasswordResetExpires = undefined;
+    // await user.save({ validateBeforeSave: false });
     req.flash('error', 'There was an error sending the email.Try again later!');
 
     return res.redirect('/users/sign-in');

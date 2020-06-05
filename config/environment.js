@@ -20,13 +20,14 @@ const development = {
   db_pass: 'q',
   DB: 'mon',
   DB_LOCAL: 'y',
+  Send_Grid_User: 'ay',
+  Send_Grid_Pass: 'Sg',
+  Email_Port: '2',
   smtp: {
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    service: 'Gmail',
+    host: 's',
     auth: {
-      user: 'nityam1@gmail.com', // generated ethereal user
+      user: 'ni1@gmail.com', // generated ethereal user
       pass: '35', // generated ethereal password
       //activate in gmail "less secure app" option
     },
@@ -49,14 +50,13 @@ const production = {
   db_pass: process.env.CODEIAL_DB_PASS,
   DB: process.env.CODEIAL_DB_ATLAS,
   DB_LOCAL: process.env.CODEIAL_DB_LOCAL,
+  Send_Grid_User: process.env.SEND_GRID_USERS,
+  Send_Grid_Pass: process.env.SEND_GRID_PASSS,
   smtp: {
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    service: 'SendGrid',
     auth: {
-      user: process.env.CODEIAL_GOOGLE_USER, // generated ethereal user
-      pass: process.env.CODEIAL_GMAIL_PASSWORD, // generated ethereal password
+      user: process.env.SEND_GRID_USERS, // generated ethereal user
+      pass: process.env.SEND_GRID_PASSS,
       //activate in gmail "less secure app" option
     },
   },
