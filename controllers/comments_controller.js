@@ -39,7 +39,7 @@ module.exports.create = async function (req, res) {
       });
 
       post.Comments.push(comment);
-      post.save(); //must be done after each update
+      post.save({ validateBeforeSave: false }); //must be done after each update
 
       // console.log(req.xhr);
 
