@@ -1,5 +1,5 @@
 // const socket = io.connect('https://gameomania-roxz.ddns.net:2000');
-socket = io.connect('https://gameomania-roxz.ddns.net:2000');
+socket = io.connect('https://gameomania-roxz.ddns.net:3000');
 // Elements
 const $messageForm = document.querySelector('#message-form');
 const $messageFormInput = $messageForm.querySelector('input');
