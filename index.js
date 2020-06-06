@@ -38,8 +38,8 @@ const app = express(); //firing express server
 app.enable('trust proxy');
 app.use(cors());
 app.options('*', cors());
-require('./config/view-helpers')(app);
-require('./config/view-helpers2')(app);
+// require('./config/view-helpers')(app);
+// require('./config/view-helpers2')(app);
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
@@ -64,9 +64,10 @@ const chatServer = require('http').Server(app); //express app http inbuilt modul
 const chatServer2 = require('http').Server(app);
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 const chatSocketss = require('./config/group_chat_socket').chatSocketss(chatServer2);
+
 chatServer.listen(4000);
 chatServer2.listen(2000);
-// console.log('chat server is listening on port 5000');
+// console.log('chat serve/r is listening on port 2000');
 
 //global middleware
 app.use(compression()); //only for text & json
