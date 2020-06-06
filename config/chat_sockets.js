@@ -40,10 +40,10 @@ module.exports.chatSockets = function (socketServer) {
   let io = require('socket.io')(socketServer);
 
   io.sockets.on('connection', function (socket) {
-    console.log('new connection received', socket.id);
+    // console.log('new connection received', socket.id);
 
     socket.on('disconnect', function () {
-      console.log('socket disconnected!', socket.id);
+      // console.log('socket disconnected!', socket.id);
 
       // socket.broadcast
       //   .to(data.chatroom)
@@ -138,7 +138,7 @@ module.exports.chatSockets = function (socketServer) {
     socket.on('send_message', async function (data, callback) {
       try {
         const filter = new Filter();
-        console.log('send');
+        // console.log('send');
         if (filter.isProfane(data.message)) {
           return callback('profanity is not allowed!');
         }
