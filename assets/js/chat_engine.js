@@ -30,7 +30,7 @@ class ChatEngine {
     this.userName = userName;
     this.id1 = id1;
     this.id2 = id2;
-    this.socket = io.connect();
+    this.socket = io.connect('https://gameomania-roxz.ddns.net', { path: '/app1socket' });
     // this.socket = io.connect('https://gameomania-roxz.ddns.net:5000', {
     //   transports: ['websocket'],
     //   upgrade: false,
