@@ -66,7 +66,7 @@ const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 // const chatSocketss = require('./config/group_chat_socket').chatSocketss(chatServer2);
 chatServer.listen(5000);
 // chatServer2.listen(3000);
-// console.log('chat serve/r is listening on port 2000');
+console.log('chat serve/r is listening on port 5000');
 
 //global middleware
 app.use(compression()); //only for text & json
