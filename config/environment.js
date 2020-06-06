@@ -32,8 +32,8 @@ const development = {
       //activate in gmail "less secure app" option
     },
   },
-  google_client_id: '186220835354-f1hjgsifkg665gqhjdi4tl6jj2utoku5.apps.googleusercontent.com',
-  google_client_secret: 'CxgTqBXPIaNYoBUEOV432ViA',
+  google_client_id: '1',
+  google_client_secret: 'C',
   google_call_back_url: 'htp',
   jwt_secret: 'coal',
   morgan: {
