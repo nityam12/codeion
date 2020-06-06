@@ -19,6 +19,8 @@ const env = require('./config/environment');
 
 const logger = require('morgan');
 
+const cors = require('cors');
+
 const rfs = require('rotating-file-stream');
 
 const cookieParser = require('cookie-parser');
@@ -33,6 +35,9 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 
 const app = express(); //firing express server
+app.enable('trust proxy');
+app.use(cors());
+app.options('*', cors());
 require('./config/view-helpers')(app);
 require('./config/view-helpers2')(app);
 const port = 8000;
@@ -149,16 +154,15 @@ app.use(
     resave: false, //no need to re-save data
     cookie: {
       //cookie validity
-      maxAge: 2 * 24 * 60 * 60, //in ms
-      secure: true, //necessary
+      maxAge: 1000 * 24 * 60 * 60, //in ms
+      // secure: true, //necessary
       httpOnly: true, // by default
     },
     store: new MongoStore( //using mongo store //session is permanentyly stored on server
       {
         //instance of mongo store
         mongooseConnection: db,
-        autoRemove: 'native',
-        touchAfter: 24 * 3600,
+        autoRemove: 'disabled',
       },
       function (
         err //callback fn to show err
