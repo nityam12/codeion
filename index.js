@@ -64,9 +64,8 @@ const chatServer = require('http').Server(app); //express app http inbuilt modul
 const chatServer2 = require('http').Server(app);
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 const chatSocketss = require('./config/group_chat_socket').chatSocketss(chatServer2);
-
-chatServer.listen(4000);
-chatServer2.listen(2000);
+chatServer.listen(5000);
+chatServer2.listen(3000);
 // console.log('chat serve/r is listening on port 2000');
 
 //global middleware
