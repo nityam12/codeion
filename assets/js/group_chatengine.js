@@ -1,5 +1,5 @@
 // const socket = io.connect('https://gameomania-roxz.ddns.net:3000');
-const socket = io.connect('https://gameomania-roxz.ddns.net', { path: '/groupchat/room/app2socket' });
+const socket = io.connect('https://gameomania-roxz.ddns.net', { path: '/app2socket' });
 // Elements
 const $messageForm = document.querySelector('#message-form');
 const $messageFormInput = $messageForm.querySelector('input');
