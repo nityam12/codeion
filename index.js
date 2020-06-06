@@ -155,7 +155,7 @@ app.use(
     cookie: {
       //cookie validity
       maxAge: 1000 * 24 * 60 * 60, //in ms
-      // secure: true, //necessary
+      secure: true, //necessary
       httpOnly: true, // by default
     },
     store: new MongoStore( //using mongo store //session is permanentyly stored on server
