@@ -1,4 +1,4 @@
-const socket = io.connect('https://gameomania-roxz.ddns.net/:2000');
+const socket = io.connect('https://gameomania-roxz.ddns.net:2000');
 
 // Elements
 const $messageForm = document.querySelector('#message-form');
