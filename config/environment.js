@@ -32,7 +32,7 @@ const development = {
       //activate in gmail "less secure app" option
     },
   },
-  google_client_id: '1',
+  google_client_id: '18622',
   google_client_secret: 'C',
   google_call_back_url: 'htp',
   jwt_secret: 'coal',
