@@ -35,9 +35,9 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 
 const app = express(); //firing express server
-app.enable('trust proxy');
-app.use(cors());
-app.options('*', cors());
+// app.enable('trust proxy');
+// app.use(cors());
+// app.options('*', cors());
 // require('./config/view-helpers')(app);
 // require('./config/view-helpers2')(app);
 const port = 8000;
@@ -163,7 +163,7 @@ app.use(
       {
         //instance of mongo store
         mongooseConnection: db,
-        autoRemove: 'disabled',
+        // autoRemove: 'disabled',
       },
       function (
         err //callback fn to show err
