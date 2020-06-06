@@ -19,7 +19,7 @@ const env = require('./config/environment');
 
 const logger = require('morgan');
 
-const cors = require('cors');
+// const cors = require('cors');
 
 const rfs = require('rotating-file-stream');
 
@@ -163,7 +163,7 @@ app.use(
       {
         //instance of mongo store
         mongooseConnection: db,
-        // autoRemove: 'disabled',
+        autoRemove: 'disabled',
       },
       function (
         err //callback fn to show err
