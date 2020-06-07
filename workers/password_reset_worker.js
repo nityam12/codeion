@@ -6,7 +6,7 @@ const ResetLinkMailer = require('../mailers/reset_password_mailer');
 
 // emails her is name of queue and proces  fn is exec every time a job is added
 queue.process('resetemail', function (job, done) {
-  // console.log("resetemail worker is processing a job",job.data);
+  console.log("resetemail worker is processing a job",job.data);
 
   ResetLinkMailer.recover(job.data.resetURL, job.data.email);
 
