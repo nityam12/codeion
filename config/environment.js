@@ -54,14 +54,11 @@ const production = {
   Send_Grid_Pass: process.env.SEND_GRID_PASSS,
   smtp: {
     service: 'SendGrid',
+    secure: false,
     auth: {
       user: process.env.SEND_GRID_USERS, // generated ethereal user
       pass: process.env.SEND_GRID_PASSS,
       //activate in gmail "less secure app" option
-    },
-    tls: {
-      // do not fail on invalid certs
-      rejectUnauthorized: false,
     },
   },
   google_client_id: process.env.CODEIAL_GOOGLE_CLIENT_ID,
