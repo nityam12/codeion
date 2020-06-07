@@ -12,9 +12,10 @@ exports.recover = (resetURL, email) => {
     '/forgot_password/forgot_password.ejs'
   );
 
+  console.log(email);
   nodeMailer.transporter.sendMail(
     {
-      from: 'Codeial',
+      from: 'Gameomania',
       to: email,
       subject: 'forgot password',
       html: htmlString,
@@ -25,7 +26,7 @@ exports.recover = (resetURL, email) => {
         return;
       }
 
-      // console.log("Message Sent",info);
+      console.log("Message Sent",info);
       return;
     }
   );

@@ -9,7 +9,7 @@ exports.newComment = (comment) => {
 
   nodeMailer.transporter.sendMail(
     {
-      from: 'Codeial',
+      from: 'Gameomania',
       to: comment.user.email,
       subject: 'New Comment Published:',
       html: htmlString,
