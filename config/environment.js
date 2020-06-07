@@ -59,6 +59,10 @@ const production = {
       pass: process.env.SEND_GRID_PASSS,
       //activate in gmail "less secure app" option
     },
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false,
+    },
   },
   google_client_id: process.env.CODEIAL_GOOGLE_CLIENT_ID,
   google_client_secret: process.env.CODEIAL_GOOGLE_CLIENT_SECRET,
