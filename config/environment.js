@@ -53,11 +53,13 @@ const production = {
   Send_Grid_User: process.env.SEND_GRID_USERS,
   Send_Grid_Pass: process.env.SEND_GRID_PASSS,
   smtp: {
-    service: 'SendGrid',
-    secure: false,
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
     auth: {
-      user: process.env.SEND_GRID_USERS, // generated ethereal user
-      pass: process.env.SEND_GRID_PASSS,
+      user: process.env.CODEIAL_GMAIL_USERNAME, // generated ethereal user
+      pass: process.env.CODEIAL_GMAIL_PASSWORD, // generated ethereal password
       //activate in gmail "less secure app" option
     },
   },
