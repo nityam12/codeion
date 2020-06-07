@@ -55,8 +55,6 @@ const production = {
   smtp: {
     service: 'gmail',
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
     auth: {
       user: process.env.CODEIAL_GMAIL_USERNAME, // generated ethereal user
       pass: process.env.CODEIAL_GMAIL_PASSWORD, // generated ethereal password
