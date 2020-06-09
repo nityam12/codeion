@@ -15,7 +15,7 @@ exports.recover = (resetURL, email) => {
   console.log(email);
   nodeMailer.transporter.sendMail(
     {
-      from: 'Gameomania',
+      from: 'Gameomania 👥 <gameomania-roxz.ddns.net>',
       to: email,
       subject: 'forgot password',
       html: htmlString,
