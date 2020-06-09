@@ -4,6 +4,8 @@ const crypto = require('crypto');
 const User = require('../models/user');
 const env = require('./environment');
 //tell passport to use a new strategy for google login
+console.log(env.google_call_back_url);
+
 passport.use(
   new googleStrategy(
     {
@@ -14,13 +16,13 @@ passport.use(
     },
 
     function (accessToken, refreshToken, profile, done) {
-      //find user
+      // find user
       User.findOne({ email: profile.emails[0].value }).exec(function (err, user) {
         if (err) {
           console.log('error in google strategy-passport', err);
           return;
         }
-        // console.log(profile);
+        console.log(profile);
 
         if (user) {
           //if,found,set the user as req.user
