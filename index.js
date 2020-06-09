@@ -144,6 +144,7 @@ app.set('layout extractScripts', true); //add individual style to each page-- >
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+app.set('trust proxy');
 //midleware used for enrypting session cookie of express cookie
 //mongo store is used to store the session cookie in db
 app.use(
@@ -152,17 +153,21 @@ app.use(
     secret: env.session_cookie_keys, //key to encode & decode
     saveUninitialized: false, //no need to save uninitialized login info
     resave: false, //no need to re-save data
+    proxy: true,
     cookie: {
       //cookie validity
       maxAge: 1000 * 24 * 60 * 60, //in ms
       secure: true, //necessary
       httpOnly: true, // by def
+      sameSite: true,
     },
     store: new MongoStore( //using mongo store //session is permanentyly stored on server
       {
         //instance of mongo store
         mongooseConnection: db,
-        autoRemove: 'disabled',
+        touchAfter: 24 * 3600,
+        autoRemove: 'interval',
+        autoRemoveInterval: 10,
       },
       function (
         err //callback fn to show err
