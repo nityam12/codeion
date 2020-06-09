@@ -14,7 +14,7 @@ exports.accverify = (url, email) => {
 
   nodeMailer.transporter.sendMail(
     {
-      from: 'Gameomania 👥 <gameomania-roxz.ddns.net>',
+      from: 'Gameomania <gameomanianityam@gmail.com>',
       to: email,
       subject: 'Account Activation',
       html: htmlString,

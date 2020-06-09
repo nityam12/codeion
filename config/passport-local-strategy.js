@@ -24,10 +24,10 @@ passport.use(
           return done(null, false); //one for err & other for unsuccessful authentication
         }
 
-        // if (await (user.isActive === false)) {
-        //   req.flash('error', 'Please Verify Your Account');
-        //   return done(null, false); //one for err & other for unsuccessful authentication
-        // }
+        if (await (user.isActive === false)) {
+          req.flash('error', 'Please Verify Your Account');
+          return done(null, false); //one for err & other for unsuccessful authentication
+        }
 
         return done(null, user); //first one is err-null  sec-user
       
