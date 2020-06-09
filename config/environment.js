@@ -12,6 +12,8 @@ const accessLogStream = rfs.createStream('access.log', {
   path: logDirectory,
 });
 
+console.log(process.env.CODEIAL_GOOGLE_CALL_BACK_URL);
+
 const development = {
   name: 'development',
   asset_path: '/ats',
