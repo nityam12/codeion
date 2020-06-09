@@ -149,7 +149,8 @@ app.set('trust proxy');
 //mongo store is used to store the session cookie in db
 app.use(
   session({
-    name: 'codeial', //name for cookie
+    // name: 'codeial', //name for cookie
+    name: 'gameodevil',
     secret: env.session_cookie_keys, //key to encode & decode
     saveUninitialized: false, //no need to save uninitialized login info
     resave: false, //no need to re-save data
