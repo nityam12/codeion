@@ -19,7 +19,7 @@ const env = require('./config/environment');
 
 const logger = require('morgan');
 
-// const cors = require('cors');
+const cors = require('cors');
 
 const rfs = require('rotating-file-stream');
 
@@ -35,9 +35,9 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 
 const app = express(); //firing express server
-// app.enable('trust proxy');
-// app.use(cors());
-// app.options('*', cors());
+app.enable('trust proxy');
+app.use(cors());
+app.options('*', cors());
 require('./config/view-helpers')(app);
 require('./config/view-helpers2')(app);
 const port = 8000;
@@ -75,7 +75,7 @@ app.use(helmet());
 
 //Limit requests from same ip address
 const limiter = rateLimit({
-  max: 250,
+  max: 350,
   windowMs: 60 * 60 * 1000,
   message: 'Too many request from this IP,please try again in an hour!',
 });
