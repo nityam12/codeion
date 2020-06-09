@@ -12,7 +12,7 @@ const accessLogStream = rfs.createStream('access.log', {
   path: logDirectory,
 });
 
-console.log(process.env.CODEIAL_GOOGLE_CALL_BACK_URL);
+console.log(process.env.CODEIAL_GOOGLE_CLIENT_ID);
 
 const development = {
   name: 'development',
