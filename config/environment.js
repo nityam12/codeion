@@ -12,8 +12,6 @@ const accessLogStream = rfs.createStream('access.log', {
   path: logDirectory,
 });
 
-console.log(process.env.CODEIAL_GOOGLE_CLIENT_IDS);
-
 const development = {
   name: 'development',
   asset_path: '/ats',

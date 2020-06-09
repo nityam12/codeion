@@ -11,7 +11,7 @@ passport.use(
       clientID: env.google_client_id,
       clientSecret: env.google_client_secret,
       callbackURL: env.google_call_back_url,
-      passReqToCallback: true,
+      // passReqToCallback: true,
     },
 
     function (accessToken, refreshToken, profile, done) {
