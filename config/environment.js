@@ -12,7 +12,7 @@ const accessLogStream = rfs.createStream('access.log', {
   path: logDirectory,
 });
 
-console.log(process.env.CODEIAL_GOOGLE_CLIENT_ID);
+console.log(process.env.CODEIAL_GOOGLE_CLIENT_IDS);
 
 const development = {
   name: 'development',
@@ -62,8 +62,8 @@ const production = {
       //activate in gmail "less secure app" option
     },
   },
-  google_client_id: process.env.CODEIAL_GOOGLE_CLIENT_ID,
-  google_client_secret: process.env.CODEIAL_GOOGLE_CLIENT_SECRET,
+  google_client_id: process.env.CODEIAL_GOOGLE_CLIENT_IDS,
+  google_client_secret: process.env.CODEIAL_GOOGLE_CLIENT_SECRETS,
   google_call_back_url: 'https://gameomania-roxz.ddns.net/users/auth/google/callback',
   jwt_secret: process.env.CODEIAL_JWT_SECRET,
   morgan: {
