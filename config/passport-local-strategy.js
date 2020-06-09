@@ -5,6 +5,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 //TELL PASSPORT TO USE LOCAL STRATEGY
 
+// console.log('********');
 //authentication using passport
 passport.use(
   new LocalStrategy(
@@ -14,7 +15,7 @@ passport.use(
     },
     async function (req, email, password, done) {
       //done is callback fn returning to passport/js
-
+      // console.log('********');
       try {
         const user = await User.findOne({ email: email }).select('+password');
 

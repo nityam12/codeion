@@ -114,7 +114,7 @@ app.use(xss());
 //prevent parameter pollution
 app.use(
   hpp({
-    whitelist: [],
+    whitelist: ['/users'],
   })
 );
 
