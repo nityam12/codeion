@@ -153,12 +153,12 @@ app.use(
     name: 'gameodevil',
     secret: env.session_cookie_keys, //key to encode & decode
     saveUninitialized: false, //no need to save uninitialized login info
-    resave: false, //no need to re-save data
+    resave: true, //no need to re-save data
     // proxy: true,
     cookie: {
       //cookie validity
       maxAge: 1000 * 24 * 60 * 60, //in ms
-      // secure: true, //necessary
+      secure: true, //necessary
       httpOnly: true, // by def
       sameSite: true,
     },
